@@ -2,29 +2,55 @@
 
 int main(void)
 {
-	int			running = 1;
 	std::string	input;
 	PhoneBook	phone;
-	int			contactSearch;
+
+	std::cout << "What you want to do with your phonebook? "
+			  << " (ADD, SEARCH, EXIT) " << std::endl;
+	std::cout << "phonebook > ";
+	while(std::getline(std::cin, input) && input != "EXIT")
+	{
+		if (input == "ADD")
+			phone.add();
+		else if (input == "SEARCH")
+			phone.search();
+		else
+			std::cout << "Invalid command. Try again." << std::endl;
+		std::cout << "phonebook > ";
+	}
+	return (0);
+}
+/*
+int main(void)
+{
+	PhoneBook	pb;
+	std::string	input;
+
+	pb.addTestContact("1", "A", "A", "111", "S1");
+	pb.addTestContact("2", "B", "B", "222", "S2");
+	pb.addTestContact("3", "C", "C", "333", "S3");
+	pb.addTestContact("4", "D", "D", "444", "S4");
+	pb.addTestContact("5", "E", "E", "555", "S5");
+	pb.addTestContact("6", "F", "F", "666", "S6");
+	pb.addTestContact("7", "G", "G", "777", "S7");
+	pb.addTestContact("8", "H", "H", "888", "S8");
+	pb.addTestContact("9", "I", "I", "999", "S9");
 
 	std::cout << "Welcome to your phonebook!" << std::endl;
-	while(running)
+	while(1)
 	{
 		std::cout << "What you want to do with your phonebook? "
 				  << " (ADD, SEARCH, EXIT) ";
 		std::getline(std::cin, input);
 		if (input == "ADD")
-			phone.add();
+			pb.add();
 		else if (input == "SEARCH")
-		{
-			phone.search();
-			std::cout << "Which contact you want to display? ";
-			std::getline(std::cin, contactSearch);
-			contactSearch = std::atoi(line.c_str());
-			phone.display(contactSearch);
-		}
+			pb.search();
 		else if (input == "EXIT")
-			running = 0;
+			break ;
+		else
+			std::cout << "Invalid command. Try again." << std::endl;
 	}
 	return (0);
 }
+*/
