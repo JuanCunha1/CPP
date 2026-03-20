@@ -4,6 +4,11 @@
 # include <string>
 # include <iomanip>
 # include <cstdlib>
+#include <stdio.h>
+
+using std::cout;
+using std::cin;
+using std::endl;
 
 class Contact {
 	private:
@@ -15,7 +20,8 @@ class Contact {
 
 		std::string format_field(std::string str);
 	public:
-		Contact addContact(void);
+		bool	fillLine(std::string out, std::string *in);
+		bool	addContact(void);
 		void	showContacts(int index);
 		void	displayContact(void);
 		void	addTestContact(std::string first, std::string last,

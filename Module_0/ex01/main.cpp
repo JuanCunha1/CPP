@@ -1,24 +1,68 @@
 #include "PhoneBook.hpp"
 
+
+static void	printWelcome(void)
+{
+	std::cout <<"*-------------------------------------------*\n"
+				"|                                           |\n"
+				"|                 Jmarques                  |\n"
+				"|                  Phone                    |\n"
+				"|                   Book                    |\n"
+				"|                                           |\n"
+				"|          ADD - Add a new contact          |\n"
+				"|          SEARCH - Display a contact       |\n"
+				"|          EXIT - Exit PhoneBook            |\n"
+				"|                                           |\n"
+				"*-------------------------------------------*" << endl;
+}
+
+static bool inline inputIsValid(std::string input)
+{
+	return (input == "ADD" || input == "SEARCH" || input == "EXIT");
+}
+
+static std::string	getInput()
+{
+	std::string	input;
+
+	while (1)
+	{
+		getline(cin, input);
+		if (cin.eof() == true)
+		{
+			cin.clear();
+			clearerr(stdin);
+			exit(0);
+		}
+		if (!input.empty() && inputIsValid(input))
+			break ;
+		cin.clear();
+		cout << "Please insert a valid input" << endl;
+	}
+	return (input);
+}
+
 int main(void)
 {
 	std::string	input;
 	PhoneBook	phone;
 
-	std::cout << "What you want to do with your phonebook? "
-			  << " (ADD, SEARCH, EXIT) " << std::endl;
-	std::cout << "phonebook > ";
-	while(std::getline(std::cin, input) && input != "EXIT")
+	printWelcome();
+	while(1)
 	{
+		cout << "Option: ";
+		input = getInput();
 		if (input == "ADD")
 			phone.add();
 		else if (input == "SEARCH")
 			phone.search();
 		else
-			std::cout << "Invalid command. Try again." << std::endl;
-		std::cout << "phonebook > ";
+		{
+			cout << "See ya." << endl;
+			return (EXIT_SUCCESS);
+		}
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 /*
 int main(void)
@@ -36,12 +80,12 @@ int main(void)
 	pb.addTestContact("8", "H", "H", "888", "S8");
 	pb.addTestContact("9", "I", "I", "999", "S9");
 
-	std::cout << "Welcome to your phonebook!" << std::endl;
+	cout << "Welcome to your phonebook!" << cndl;
 	while(1)
 	{
-		std::cout << "What you want to do with your phonebook? "
+		cout << "What you want to do with your phonebook? "
 				  << " (ADD, SEARCH, EXIT) ";
-		std::getline(std::cin, input);
+		std::getline(cin, input);
 		if (input == "ADD")
 			pb.add();
 		else if (input == "SEARCH")
@@ -49,7 +93,7 @@ int main(void)
 		else if (input == "EXIT")
 			break ;
 		else
-			std::cout << "Invalid command. Try again." << std::endl;
+			cout << "Invalid command. Try again." << cndl;
 	}
 	return (0);
 }

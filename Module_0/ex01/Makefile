@@ -1,22 +1,39 @@
-SRC = Contact.cpp PhoneBook.cpp main.cpp
 NAME = phonebook
-CC = c++ -Wall -Wextra -Werror -std=c++98
+CC = c++
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include -fsanitize=address -MMD -MP
+RM = rm -rf
 
-OBJ = $(SRC:.cpp=.o)
-HEADERS = Contact.hpp PhoneBook.hpp
+SRCS = source/Contact.cpp \
+	   source/PhoneBook.cpp \
+	   main.cpp
+
+OBJ_DIR = obj
+OBJ = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)
+DEP = $(OBJ:.o=.d)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(OBJ) -o $(NAME)
+$(NAME): $(OBJ) Makefile
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
-%.o: %.cpp $(HEADERS)
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)/source
+
+$(OBJ_DIR)/%.o: %.cpp | $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+-include $(DEP)
+
 clean:
-	rm -rf $(OBJ)
+	$(RM) $(OBJ_DIR)
 
 fclean: clean
-	rm -rf $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
+
+run: all clean
+	./$(NAME)
+
+.PHONY: all clean fclean re run

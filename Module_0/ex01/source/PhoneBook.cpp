@@ -6,7 +6,8 @@ void	PhoneBook::add()
 		contacts[0].addContact();
 	else
 	{
-		contacts[i].addContact();
+		if (!contacts[i].addContact())
+			return ;
 		i++;
 	}
 }
@@ -21,12 +22,11 @@ void	PhoneBook::search()
 		contacts[index].showContacts(index);
 		index++;
 	}
-	std::cout << "Which contact you want to display? ";
-	if (!std::getline(std::cin, contactSearch))
-		return;
+	if (!contacts[index].fillLine("Which contact you want to display? ", &contactSearch))
+			return ;
 	index = std::atoi(contactSearch.c_str());
 	if (index < 0 || index >= i)
-		std::cout << "Contact not available" << std::endl;
+		cout << "Contact not available" << endl;
 	else
 		contacts[index].displayContact();
 }
