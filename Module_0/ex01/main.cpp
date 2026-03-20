@@ -80,21 +80,21 @@ int main(void)
 	pb.addTestContact("8", "H", "H", "888", "S8");
 	pb.addTestContact("9", "I", "I", "999", "S9");
 
-	cout << "Welcome to your phonebook!" << cndl;
+	printWelcome();
 	while(1)
 	{
-		cout << "What you want to do with your phonebook? "
-				  << " (ADD, SEARCH, EXIT) ";
-		std::getline(cin, input);
+		cout << "Option: ";
+		input = getInput();
 		if (input == "ADD")
-			pb.add();
+			phone.add();
 		else if (input == "SEARCH")
-			pb.search();
-		else if (input == "EXIT")
-			break ;
+			phone.search();
 		else
-			cout << "Invalid command. Try again." << cndl;
+		{
+			cout << "See ya." << endl;
+			return (EXIT_SUCCESS);
+		}
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }
 */
