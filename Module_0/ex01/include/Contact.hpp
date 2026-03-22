@@ -4,7 +4,7 @@
 # include <string>
 # include <iomanip>
 # include <cstdlib>
-#include <stdio.h>
+# include <stdio.h>
 
 using std::cout;
 using std::cin;
