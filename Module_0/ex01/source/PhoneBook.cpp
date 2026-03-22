@@ -1,5 +1,10 @@
 #include "PhoneBook.hpp"
 
+PhoneBook::PhoneBook(void)
+{
+	i = 0;
+}
+
 void	PhoneBook::add()
 {
 	if(i == 8)
