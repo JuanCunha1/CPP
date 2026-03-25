@@ -2,24 +2,22 @@ SRCS = Account.cpp tests.cpp\
 
 OBJS = $(SRCS:.cpp=.o)
 NAME = bank
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I. -MMD -MP
 CXX = c++
 RM = rm -f
 
-ifdef DEBUG
-	CXXFLAGS += -g -fsanitize=address
-endif
-
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(OBJS) Makefile
 	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
 debug:
-	$(CXX) -Wall -Wextra -Werror -std=c++98 -g -fsanitize=address  -o $(NAME) $(SRCS)
+	$(CXX) $(CXXFLAGS) -g -fsanitize=address  -o $(NAME) $(SRCS)
 
-%.o: %.c
+%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+-include $(OBJS:.o=.d)
 
 clean:
 	$(RM) $(OBJS)
