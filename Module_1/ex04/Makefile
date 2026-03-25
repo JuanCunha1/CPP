@@ -1,28 +1,30 @@
+NAME = sed_for_loser
 SRCS = main.cpp\
 
-OBJS = $(SRCS:.cpp=.o)
-NAME = brain
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
-CXX = c++
-RM = rm -f
+OBJ_DIR = obj
+OBJ = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)
+DEP = $(OBJ:.o=.d)
 
-ifdef DEBUG
-	CXXFLAGS += -g -fsanitize=address
-endif
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I -fsanitize=address -MMD -MP
+CXX = c++
+RM = rm -rf
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
+$(NAME): $(OBJ) Makefile
+	$(CXX) -g -fsanitize=address $(CXXFLAGS) -o $(NAME) $(OBJ)
 
-debug:
-	$(CXX) $(CXXFLAGS) -g -fsanitize=address -o $(NAME) $(SRCS)
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
-%.o: %.c
+$(OBJ_DIR)/%.o: %.cpp | $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+-include $(DEP)
+
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJ_DIR)
 
 fclean: clean
 	$(RM) $(NAME)

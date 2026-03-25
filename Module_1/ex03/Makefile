@@ -1,28 +1,30 @@
-SRCS = main.cpp HumanA.cpp HumanB.cpp Weapon.cpp\
-
-OBJS = $(SRCS:.cpp=.o)
 NAME = violance
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98
-CXX = c++
-RM = rm -f
+SRCS = main.cpp HumanA.cpp HumanB.cpp Weapon.cpp
 
-ifdef DEBUG
-	CXXFLAGS += -g -fsanitize=address
-endif
+OBJ_DIR = obj
+OBJ = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)
+DEP = $(OBJ:.o=.d)
+
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I -fsanitize=address -MMD -MP
+CXX = c++
+RM = rm -rf
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
+$(NAME): $(OBJ) Makefile
+	$(CXX) -g -fsanitize=address $(CXXFLAGS) -o $(NAME) $(OBJ)
 
-debug:
-	$(CXX) $(CXXFLAGS) -g -fsanitize=address -o $(NAME) $(SRCS)
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
-%.o: %.c
+$(OBJ_DIR)/%.o: %.cpp | $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+-include $(DEP)
+
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJ_DIR)
 
 fclean: clean
 	$(RM) $(NAME)

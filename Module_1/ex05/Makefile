@@ -1,6 +1,5 @@
-SRCS = main.cpp Zombie.cpp zombieHorde.cpp\
-
-NAME = zombie
+NAME = harl2.0
+SRCS = main.cpp Harl.cpp\
 
 OBJ_DIR = obj
 OBJ = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)
