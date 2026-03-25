@@ -1,8 +1,6 @@
 #include "PhoneBook.hpp"
 
-
-static void	printWelcome(void)
-{
+static void	printWelcome(void) {
 	std::cout <<"*-------------------------------------------*\n"
 				"|                                           |\n"
 				"|                 Jmarques                  |\n"
@@ -16,20 +14,17 @@ static void	printWelcome(void)
 				"*-------------------------------------------*" << endl;
 }
 
-static bool inline inputIsValid(std::string input)
-{
+static bool inline	inputIsValid(std::string input) {
 	return (input == "ADD" || input == "SEARCH" || input == "EXIT");
 }
 
-static std::string	getInput()
-{
+static std::string	getInput() {
 	std::string	input;
 
 	while (1)
 	{
 		getline(cin, input);
-		if (cin.eof() == true)
-		{
+		if (cin.eof() == true) {
 			cin.clear();
 			clearerr(stdin);
 			exit(0);
@@ -42,8 +37,7 @@ static std::string	getInput()
 	return (input);
 }
 
-int main(void)
-{
+int	main(void) {
 	std::string	input;
 	PhoneBook	phone;
 
@@ -65,8 +59,7 @@ int main(void)
 	return (EXIT_SUCCESS);
 }
 /*
-int main(void)
-{
+int main(void) {
 	PhoneBook	pb;
 	std::string	input;
 
@@ -81,16 +74,14 @@ int main(void)
 	pb.addTestContact("9", "I", "I", "999", "S9");
 
 	printWelcome();
-	while(1)
-	{
+	while(1) {
 		cout << "Option: ";
 		input = getInput();
 		if (input == "ADD")
-			phone.add();
+			pb.add();
 		else if (input == "SEARCH")
-			phone.search();
-		else
-		{
+			pb.search();
+		else {
 			cout << "See ya." << endl;
 			return (EXIT_SUCCESS);
 		}

@@ -1,10 +1,12 @@
 #ifndef CONTACT_HPP
 # define CONTACT_HPP
+
 # include <iostream>
 # include <string>
 # include <iomanip>
 # include <cstdlib>
 # include <stdio.h>
+# include <limits>
 
 using std::cout;
 using std::cin;

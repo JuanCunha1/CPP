@@ -1,12 +1,10 @@
 #include "PhoneBook.hpp"
 
-PhoneBook::PhoneBook(void)
-{
+PhoneBook::PhoneBook(void) {
 	i = 0;
 }
 
-void	PhoneBook::add()
-{
+void	PhoneBook::add() {
 	if(i == 8)
 		contacts[0].addContact();
 	else
@@ -17,8 +15,7 @@ void	PhoneBook::add()
 	}
 }
 
-void	PhoneBook::search()
-{
+void	PhoneBook::search() {
 	int			index = 0;
 	std::string	contactSearch;
 
@@ -37,9 +34,8 @@ void	PhoneBook::search()
 }
 
 void	PhoneBook::addTestContact(std::string first, std::string last,
-                               std::string nick, std::string phone,
-                               std::string secret)
-{
+									std::string nick, std::string phone,
+									std::string secret) {
 	if(i == 8)
 		contacts[0].addTestContact(first, last, nick, phone, secret);
 	else

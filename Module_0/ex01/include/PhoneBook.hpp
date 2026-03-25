@@ -6,12 +6,10 @@
 class PhoneBook {
 
 private:
-
 	Contact contacts[8];
 	int		i;
 
 public:
-
 	PhoneBook(void);
 
 	void	add(void);
@@ -21,4 +19,5 @@ public:
 							std::string nick, std::string phone,
 							std::string secret);
 };
+
 #endif
