@@ -14,6 +14,11 @@
 # define PHONEBOOK_HPP
 
 # include "Contact.hpp"
+# include <iostream>
+# include <string>
+# include <iomanip>
+# include <cstdlib>
+# include <stdio.h>
 
 class PhoneBook {
 

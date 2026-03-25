@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "PhoneBook.hpp"
+#include "Contact.hpp"
 
 static void	printWelcome(void) {
 	std::cout <<"*-------------------------------------------*\n"

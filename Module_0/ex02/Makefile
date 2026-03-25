@@ -21,6 +21,7 @@ debug:
 
 clean:
 	$(RM) $(OBJS)
+	$(RM) $(OBJS:.o=.d)
 
 fclean: clean
 	$(RM) $(NAME)
