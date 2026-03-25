@@ -12,8 +12,7 @@
 
 #include <iostream>
 
-int main(int argc, char** argv)
-{
+int	main(int argc, char** argv) {
 	int j;
 
 	if (argc == 1)
@@ -24,7 +23,7 @@ int main(int argc, char** argv)
 	j = 1;
 	while(j < argc)
 	{
-		for (int i = 0; argv[j][i] != '\0' ; i++) 
+		for (int i = 0; argv[j][i] != '\0' ; i++)
 		{
 			std::cout << (char)std::toupper(argv[j][i]);
 		}
