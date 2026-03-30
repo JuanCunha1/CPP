@@ -20,10 +20,6 @@
 # include <stdio.h>
 # include <limits>
 
-using std::cout;
-using std::cin;
-using std::endl;
-
 class Contact {
 
 private:
@@ -37,15 +33,11 @@ private:
 	std::string format_field(std::string str);
 
 public:
-
-	bool	fillLine(std::string out, std::string *in);
 	bool	addContact(void);
 	void	showContacts(int index);
-	void	displayContact(void);
-	void	addTestContact(std::string first, std::string last,
-                               std::string nick, std::string phone,
-                               std::string secret);
-
+	void	displayContact(void) const;
+	int		isPhoneNumber(std::string &pn);
 };
 
+bool	fillLine(std::string prompt, std::string &input);
 #endif

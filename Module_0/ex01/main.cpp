@@ -24,7 +24,7 @@ static void	printWelcome(void) {
 				"|          SEARCH - Display a contact       |\n"
 				"|          EXIT - Exit PhoneBook            |\n"
 				"|                                           |\n"
-				"*-------------------------------------------*" << endl;
+				"*-------------------------------------------*" << std::endl;
 }
 
 static bool inline	inputIsValid(std::string input) {
@@ -36,16 +36,17 @@ static std::string	getInput() {
 
 	while (1)
 	{
-		getline(cin, input);
-		if (cin.eof() == true) {
-			cin.clear();
+		getline(std::cin, input);
+		if (std::cin.eof() == true) {
+			std::cin.clear();
 			clearerr(stdin);
-			exit(0);
+			std::cout << "\n";
+			return ("");
 		}
 		if (!input.empty() && inputIsValid(input))
 			break ;
-		cin.clear();
-		cout << "Please insert a valid input" << endl;
+		std::cin.clear();
+		std::cout << "Please insert a valid input" << std::endl;
 	}
 	return (input);
 }
@@ -57,7 +58,7 @@ int	main(void) {
 	printWelcome();
 	while(1)
 	{
-		cout << "Option: ";
+		std::cout << "Option: ";
 		input = getInput();
 		if (input == "ADD")
 			phone.add();
@@ -65,40 +66,9 @@ int	main(void) {
 			phone.search();
 		else
 		{
-			cout << "See ya." << endl;
+			std::cout << "See ya." << std::endl;
 			return (EXIT_SUCCESS);
 		}
 	}
 	return (EXIT_SUCCESS);
 }
-/*
-int main(void) {
-	PhoneBook	pb;
-	std::string	input;
-
-	pb.addTestContact("1", "A", "A", "111", "S1");
-	pb.addTestContact("2", "B", "B", "222", "S2");
-	pb.addTestContact("3", "C", "C", "333", "S3");
-	pb.addTestContact("4", "D", "D", "444", "S4");
-	pb.addTestContact("5", "E", "E", "555", "S5");
-	pb.addTestContact("6", "F", "F", "666", "S6");
-	pb.addTestContact("7", "G", "G", "777", "S7");
-	pb.addTestContact("8", "H", "H", "888", "S8");
-	pb.addTestContact("9", "I", "I", "999", "S9");
-
-	printWelcome();
-	while(1) {
-		cout << "Option: ";
-		input = getInput();
-		if (input == "ADD")
-			pb.add();
-		else if (input == "SEARCH")
-			pb.search();
-		else {
-			cout << "See ya." << endl;
-			return (EXIT_SUCCESS);
-		}
-	}
-	return (EXIT_SUCCESS);
-}
-*/

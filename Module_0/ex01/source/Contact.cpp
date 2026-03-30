@@ -12,41 +12,53 @@
 
 #include "Contact.hpp"
 
-bool	Contact::fillLine(std::string out, std::string *in) {
+bool fillLine(const std::string prompt, std::string& input) {
 	std::string	tmp;
 
-	cout << out;
+	std::cout << prompt;
 	while (1) {
-		getline(cin, tmp);
-		if (cin.eof() == true) {
-			cin.clear();
+		getline(std::cin, tmp);
+		if (std::cin.eof() == true) {
+			std::cin.clear();
 			clearerr(stdin);
-			cout << endl;
+			std::cout << std::endl;
 			return (false);
 		}
 		if (!tmp.empty()) {
-			*in = tmp;
+			input = tmp;
 			return (true);
 		}
-		cout << "No empty fields!" << endl << out;
+		std::cout << "No empty fields!" << std::endl << prompt;
 	}
 }
 
-static int	isPhoneNumber(std::string pn) {
-	int	i;
-
-	if ((!std::isdigit(pn[0]) && pn[0] != '+') || (pn[0] == '+' && !std::isdigit(pn[1]))) {
-		cout << "Please enter a valid number (no brackets, only '+' and digits allowed 1 1)" << endl;
+bool isNUmber(std::string &pn) {
+	size_t	i;
+	if (pn.empty())
 		return (false);
-	}
-	for (i = 1; pn[i]; i++) {
+	for (i = 1; i < pn.length(); i++) {
 		if (!std::isdigit(pn[i])) {
-			cout << "Please enter a valid number (no brackets, only '+' and digits allowed2 2 )" << endl;
+			std::cout << "Invalid number\n";
 			return (false);
 		}
 	}
+	return (true);
+}
+
+int	Contact::isPhoneNumber(std::string &pn) {
+	size_t i;
+
+	if (pn.empty())
+		return (false);
+	if ((!std::isdigit(pn[0]) && pn[0] != '+') ||
+        (pn[0] == '+' && (pn.length() < 2 || !std::isdigit(pn[1])))) {
+        std::cout << "Invalid number\n";
+		return (false);
+	}
+	if (!isNUmber(pn)
+		return (false);
 	if ((pn[0] == '+' && i < 4) || i < 3) {
-		cout << "Please enter a valid number (min 3 digits)" << endl;
+		std::cout << "Too short\n";
 		return (false);
 	}
 	return (true);
@@ -56,22 +68,21 @@ bool Contact::addContact(void) {
 	Contact		contact;
 	std::string tmp_num;
 
-	if (!fillLine("Firstname: ", &contact.Name))
+	if (!fillLine("Firstname: ", Name))
 		return (false);
-	if (!fillLine("Lastname: ", &contact.LastName))
+	if (!fillLine("Lastname: ",LastName))
 		return (false);
-	if (!fillLine("Nickname: ", &contact.Nickname))
+	if (!fillLine("Nickname: ", Nickname))
 		return (false);
-	if (!fillLine("Number: ", &tmp_num))
+	if (!fillLine("Number: ", tmp_num))
 		return (false);
 	while (!isPhoneNumber(tmp_num)) {
-		if (!fillLine("Number: ", &tmp_num))
+		if (!fillLine("Number: ", tmp_num))
 			return (false);
 	}
-	contact.PhoneNumber = tmp_num;
-	if (!fillLine("Darkest secret: ", &contact.DarkestSecret))
+	PhoneNumber = tmp_num;
+	if (!fillLine("Darkest secret: ", DarkestSecret))
 		return (false);
-	*this = contact;
 	return (true);
 }
 
@@ -82,27 +93,17 @@ std::string Contact::format_field(std::string str) {
 }
 
 void	Contact::showContacts(int index) {
-	cout << std::setw(10) << index << "|"
+	std::cout << std::setw(10) << index << "|"
 				<< std::setw(10) << format_field(Name) << "|"
 				<< std::setw(10) << format_field(LastName) << "|"
 				<< std::setw(10) << format_field(Nickname)
-				<< endl;
+				<< std::endl;
 }
 
-void	Contact::displayContact(void) {
-	cout << "Name: " << Name << endl;
-	cout << "Last name: " << LastName << endl;
-	cout << "Nickname: " << Nickname << endl;
-	cout << "Phone number: " << PhoneNumber << endl;
-	cout << "Darkest secret: " <<DarkestSecret << endl;
-}
-
-void	Contact::addTestContact(std::string first, std::string last,
-							   std::string nick, std::string phone,
-							   std::string secret) {
-	Name = first;
-	LastName = last;
-	Nickname = nick;
-	PhoneNumber = phone;
-	DarkestSecret = secret;
+void	Contact::displayContact(void) const {
+	std::cout << "Name: " << Name << std::endl;
+	std::cout << "Last name: " << LastName << std::endl;
+	std::cout << "Nickname: " << Nickname << std::endl;
+	std::cout << "Phone number: " << PhoneNumber << std::endl;
+	std::cout << "Darkest secret: " << DarkestSecret << std::endl;
 }
