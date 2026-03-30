@@ -15,18 +15,14 @@
 int	main(int argc, char** argv) {
 	int j;
 
-	if (argc == 1)
-	{
+	if (argc == 1) {
 		std::cout << "* LOUD AND UNBEARABLE FEEDBACK NOISE *" << std::endl;
 		return (0);
 	}
 	j = 1;
-	while(j < argc)
-	{
+	while(j < argc) {
 		for (int i = 0; argv[j][i] != '\0' ; i++)
-		{
 			std::cout << (char)std::toupper(argv[j][i]);
-		}
 		j++;
 	}
 	std::cout << std::endl;
