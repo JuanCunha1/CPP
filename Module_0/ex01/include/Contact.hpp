@@ -33,6 +33,10 @@ private:
 	std::string format_field(std::string str);
 
 public:
+
+	Contact();
+	~Contact();
+
 	bool	addContact(void);
 	void	showContacts(int index);
 	void	displayContact(void) const;
@@ -40,4 +44,5 @@ public:
 };
 
 bool	fillLine(std::string prompt, std::string &input);
+bool	isNumber(std::string &pn);
 #endif

@@ -12,21 +12,27 @@
 
 #include "PhoneBook.hpp"
 
-PhoneBook::PhoneBook(void) {
-	i = 0;
+PhoneBook::PhoneBook(void) : i(0) {
 }
-
+PhoneBook::~PhoneBook(void) {
+	std::cout << "See ya" << std::endl;
+}
 void	PhoneBook::add() {
-    contacts[i % 8].addContact();
+    if (!contacts[i % MAX_CONTACTS].addContact())
+    	return ;
     i++;
 }
 
 void	PhoneBook::search() {
 	int					index = 0;
 	std::string 		contactSearch;
-	int					max = std::min(i, 8);
+	int					max = std::min(i, MAX_CONTACTS);
 	std::stringstream	prompt;
 
+	if (i == 0) {
+		std::cout << "No contact available \n";
+		return ;
+	}
 	while(index < max)
 	{
 		contacts[index].showContacts(index);
@@ -35,7 +41,9 @@ void	PhoneBook::search() {
 	prompt << "Enter index (0-" << max - 1 << "): ";
 	if (!fillLine(prompt.str(), contactSearch))
 		return ;
-	index = std::atoi(contactSearch.c_str());
+	if (!isNumber(contactSearch))
+		return ;
+	std::cout << index << std::endl;
 	if (index < 0 || index >= max)
 		std::cout << "Contact not available" << std::endl;
 	else

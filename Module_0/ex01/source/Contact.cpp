@@ -12,6 +12,12 @@
 
 #include "Contact.hpp"
 
+Contact::Contact() {
+}
+
+Contact::~Contact() {
+}
+
 bool fillLine(const std::string prompt, std::string& input) {
 	std::string	tmp;
 
@@ -32,11 +38,12 @@ bool fillLine(const std::string prompt, std::string& input) {
 	}
 }
 
-bool isNUmber(std::string &pn) {
+bool isNumber(std::string &pn) {
 	size_t	i;
+
 	if (pn.empty())
 		return (false);
-	for (i = 1; i < pn.length(); i++) {
+	for (i = 0; i < pn.length(); i++) {
 		if (!std::isdigit(pn[i])) {
 			std::cout << "Invalid number\n";
 			return (false);
@@ -46,18 +53,11 @@ bool isNUmber(std::string &pn) {
 }
 
 int	Contact::isPhoneNumber(std::string &pn) {
-	size_t i;
-
 	if (pn.empty())
 		return (false);
-	if ((!std::isdigit(pn[0]) && pn[0] != '+') ||
-        (pn[0] == '+' && (pn.length() < 2 || !std::isdigit(pn[1])))) {
-        std::cout << "Invalid number\n";
+	if (!isNumber(pn))
 		return (false);
-	}
-	if (!isNUmber(pn)
-		return (false);
-	if ((pn[0] == '+' && i < 4) || i < 3) {
+	if (pn.length() < 3) {
 		std::cout << "Too short\n";
 		return (false);
 	}
@@ -65,24 +65,31 @@ int	Contact::isPhoneNumber(std::string &pn) {
 }
 
 bool Contact::addContact(void) {
-	Contact		contact;
-	std::string tmp_num;
+	std::string	name;
+	std::string last;
+	std::string nick;
+	std::string phone;
+	std::string secret;
 
-	if (!fillLine("Firstname: ", Name))
+	if (!fillLine("Firstname: ", name))
 		return (false);
-	if (!fillLine("Lastname: ",LastName))
+	if (!fillLine("Lastname: ",last))
 		return (false);
-	if (!fillLine("Nickname: ", Nickname))
+	if (!fillLine("Nickname: ", nick))
 		return (false);
-	if (!fillLine("Number: ", tmp_num))
+	if (!fillLine("Number: ", phone))
 		return (false);
-	while (!isPhoneNumber(tmp_num)) {
-		if (!fillLine("Number: ", tmp_num))
+	while (!isPhoneNumber(phone)) {
+		if (!fillLine("Number: ", phone))
 			return (false);
 	}
-	PhoneNumber = tmp_num;
-	if (!fillLine("Darkest secret: ", DarkestSecret))
+	if (!fillLine("Darkest secret: ", secret))
 		return (false);
+	Name = name;
+	LastName = last;
+	Nickname = nick;
+	PhoneNumber = phone;
+	DarkestSecret = secret;
 	return (true);
 }
 

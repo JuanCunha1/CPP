@@ -31,11 +31,12 @@ static bool inline	inputIsValid(std::string input) {
 	return (input == "ADD" || input == "SEARCH" || input == "EXIT");
 }
 
-static std::string	getInput() {
+static std::string	getInput(std::string prompt) {
 	std::string	input;
 
 	while (1)
 	{
+		std::cout << prompt;
 		getline(std::cin, input);
 		if (std::cin.eof() == true) {
 			std::cin.clear();
@@ -58,17 +59,13 @@ int	main(void) {
 	printWelcome();
 	while(1)
 	{
-		std::cout << "Option: ";
-		input = getInput();
+		input = getInput("Type ADD, SEARCH or EXIT :");
 		if (input == "ADD")
 			phone.add();
 		else if (input == "SEARCH")
 			phone.search();
 		else
-		{
-			std::cout << "See ya." << std::endl;
 			return (EXIT_SUCCESS);
-		}
 	}
 	return (EXIT_SUCCESS);
 }

@@ -21,14 +21,17 @@
 # include <stdio.h>
 # include <sstream>
 
+# define MAX_CONTACTS 8
+
 class PhoneBook {
 
 private:
-	Contact contacts[8];
+	Contact contacts[MAX_CONTACTS];
 	int		i;
 
 public:
 	PhoneBook(void);
+	~PhoneBook(void);
 
 	void	add(void);
 	void	search(void);
