@@ -21,7 +21,7 @@ void Harl::error() {
 
 void Harl::complain( std::string level ) {
 	void (Harl::*func_ptr[4])() = {&Harl::debug, &Harl::info, &Harl::warning,
-                                   &Harl::error};
+									&Harl::error};
 	int levelInt = std::atoi(level.c_str());
 	(this->*func_ptr[levelInt])();
 }

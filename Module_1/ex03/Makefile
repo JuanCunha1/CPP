@@ -1,4 +1,4 @@
-NAME = violance
+NAME = violence
 SRCS = main.cpp HumanA.cpp HumanB.cpp Weapon.cpp
 
 OBJ_DIR = obj
