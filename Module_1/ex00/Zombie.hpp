@@ -14,7 +14,7 @@ public:
 
 	Zombie(const std::string inputname);
 
-    ~Zombie(void);
+	~Zombie(void);
 };
 
 Zombie	*newZombie( std::string name );

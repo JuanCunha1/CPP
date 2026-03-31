@@ -5,10 +5,9 @@ Zombie::Zombie(const std::string inputname) {
 }
 
 Zombie::~Zombie(void) {
-    std::cout << name << " died" << std::endl;
+	std::cout << name << " died" << std::endl;
 }
 
 void	Zombie::announce(void) {
 	std::cout << name << ": BraiiiiiiinnnzzzZ..." << std::endl;
 }
-
