@@ -29,18 +29,23 @@ int main( void ) {
 		std::cout << "+ operator : " << (b + d) << std::endl;
 		std::cout << "- operator : " << (b - c) << std::endl;
 		std::cout << "* operator : " << (b * c) << std::endl;
+		std::cout << "/ operator : " << (b / c) << std::endl;
 
-		if (c < b)
-			std::cout << "c lower than b" << std::endl;
-		else
+		if (b < c)
+			std::cout << "b lower than c" << std::endl;
+		else if (c > b)
 			std::cout << "c greater than b" << std::endl;
 		if (b == d)
 			std::cout << "b equal d" << std::endl;
-		else
+		else if (b != a)
 			std::cout << "b different d" << std::endl;
+		if (b >= d)
+			std::cout << "b greater or equal d" << std::endl;
+		if (b <= d)
+			std::cout << "b lower or equal d" << std::endl;
 		std::cout << a << " " << ++a << std::endl;
-		std::cout << Fixed::min(b, c) << std::endl;
-	std::cout << Fixed::max(b, c) << std::endl;
+		std::cout << "min between:" << b << " and " << c << " is " << Fixed::min(b, c) << std::endl;
+		std::cout << "max between:" << b << " and " << c << " is " << Fixed::max(b, c) << std::endl;
 	}
 	return 0;
 }
