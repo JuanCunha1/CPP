@@ -1,0 +1,155 @@
+#!/bin/bash
+
+if [ -z "$1" ]; then
+  echo "Uso: create_classe nome_da_classe"
+  exit 1
+fi
+
+NOME=$1
+CLASSE="$(tr '[:lower:]' '[:upper:]' <<< ${NOME:0:1})${NOME:1}"
+
+INCLUDE_DIR="include"
+SRC_DIR="src"
+
+mkdir -p $INCLUDE_DIR $SRC_DIR
+
+HPP_FILE="$INCLUDE_DIR/${NOME}.hpp"
+CPP_FILE="$SRC_DIR/${NOME}.cpp"
+MAIN_FILE="$SRC_DIR/main.cpp"
+MAKEFILE="Makefile"
+
+GUARD="$(echo ${CLASSE}_HPP | tr '[:lower:]' '[:upper:]')"
+
+# Evitar overwrite
+if [ -f "$HPP_FILE" ] || [ -f "$CPP_FILE" ]; then
+  echo "Erro: Classe já existe!"
+  exit 1
+fi
+
+# ===== HPP =====
+cat <<EOF > $HPP_FILE
+#ifndef $GUARD
+#define $GUARD
+
+#include <iostream>
+
+class $CLASSE {
+public:
+    // Orthodox Canonical Form
+    $CLASSE();
+    $CLASSE(const $CLASSE& other);
+    $CLASSE& operator=(const $CLASSE& other);
+    ~$CLASSE();
+
+private:
+    int _value;
+};
+
+#endif // $GUARD
+EOF
+
+# ===== CPP =====
+cat <<EOF > $CPP_FILE
+#include "${NOME}.hpp"
+
+// Construtor padrão
+$CLASSE::$CLASSE() : _value(0) {
+    std::cout << "$CLASSE default constructor called" << std::endl;
+}
+
+// Construtor de cópia
+$CLASSE::$CLASSE(const $CLASSE& other) {
+    std::cout << "$CLASSE copy constructor called" << std::endl;
+    *this = other;
+}
+
+// Operador de atribuição
+$CLASSE& $CLASSE::operator=(const $CLASSE& other) {
+    std::cout << "$CLASSE assignment operator called" << std::endl;
+    if (this != &other) {
+        this->_value = other._value;
+    }
+    return *this;
+}
+
+// Destrutor
+$CLASSE::~$CLASSE() {
+    std::cout << "$CLASSE destructor called" << std::endl;
+}
+EOF
+
+# ===== MAIN =====
+if [ ! -f "$MAIN_FILE" ]; then
+cat <<EOF > $MAIN_FILE
+#include "${NOME}.hpp"
+
+int main() {
+    std::cout << "--- Test OCF ---" << std::endl;
+
+    $CLASSE a;
+    $CLASSE b(a);
+    $CLASSE c;
+
+    c = b;
+
+    return 0;
+}
+EOF
+fi
+
+# ===== MAKEFILE =====
+if [ ! -f "$MAKEFILE" ]; then
+cat <<EOF > $MAKEFILE
+NAME = program
+CC = c++
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include -fsanitize=address -MMD -MP
+RM = rm -rf
+
+SRC_DIR = src
+
+SRCS =	\$(SRC_DIR)/main.cpp \\
+		\$(SRC_DIR)/${NOME}.cpp
+
+OBJ_DIR = obj
+OBJ = \$(SRCS:\$(SRC_DIR)/%.cpp=\$(OBJ_DIR)/%.o)
+DEP = \$(OBJ:.o=.d)
+
+all: \$(NAME)
+
+\$(NAME): \$(OBJ) Makefile
+	\$(CC) \$(CFLAGS) \$(OBJ) -o \$(NAME)
+
+\$(OBJ_DIR):
+	mkdir -p \$(OBJ_DIR)
+
+\$(OBJ_DIR)/%.o: \$(SRC_DIR)/%.cpp | \$(OBJ_DIR)
+	@mkdir -p \$(dir \$@)
+	\$(CC) \$(CFLAGS) -c \$< -o \$@
+
+-include \$(DEP)
+
+clean:
+	\$(RM) \$(OBJ_DIR)
+
+fclean: clean
+	\$(RM) \$(NAME)
+
+re: fclean all
+
+run: all clean
+	./\$(NAME)
+
+.PHONY: all clean fclean re run
+EOF
+
+else
+    # Atualizar SRCS
+    if ! grep -q "${NOME}.cpp" "$MAKEFILE"; then
+        sed -i "/SRCS =/a\\
+		\$(SRC_DIR)/${NOME}.cpp \\\\" "$MAKEFILE"
+    fi
+fi
+
+echo "✔ Classe $CLASSE criada"
+echo "✔ Estrutura pronta (src/include/obj)"
+echo "✔ Makefile atualizado"
