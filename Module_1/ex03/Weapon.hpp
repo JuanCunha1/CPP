@@ -12,7 +12,7 @@ public:
 	
 	explicit Weapon(const std::string &type);
 	
-	std::string getType(void);
+	std::string getType(void) const;
 	
 	void setType(const std::string &type);
 };
