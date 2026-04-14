@@ -97,6 +97,7 @@ int main() {
 EOF
 fi
 
+
 # ===== MAKEFILE =====
 if [ ! -f "$MAKEFILE" ]; then
 cat <<EOF > $MAKEFILE
