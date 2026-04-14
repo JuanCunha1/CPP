@@ -52,12 +52,12 @@ EOF
 cat <<EOF > $CPP_FILE
 #include "${NOME}.hpp"
 
-// Construtor padrão
+// Constructor padrão
 $CLASSE::$CLASSE() : _value(0) {
     std::cout << "$CLASSE default constructor called" << std::endl;
 }
 
-// Construtor de cópia
+// Constructor de cópia
 $CLASSE::$CLASSE(const $CLASSE& other) {
     std::cout << "$CLASSE copy constructor called" << std::endl;
     *this = other;
@@ -72,7 +72,7 @@ $CLASSE& $CLASSE::operator=(const $CLASSE& other) {
     return *this;
 }
 
-// Destrutor
+// Destructor
 $CLASSE::~$CLASSE() {
     std::cout << "$CLASSE destructor called" << std::endl;
 }
