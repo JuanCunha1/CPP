@@ -38,12 +38,12 @@ void	PhoneBook::search() {
 		contacts[index].showContacts(index);
 		index++;
 	}
+	index = 0;
 	prompt << "Enter index (0-" << max - 1 << "): ";
 	if (!fillLine(prompt.str(), contactSearch))
 		return ;
 	if (!isNumber(contactSearch))
 		return ;
-	std::cout << index << std::endl;
 	if (index < 0 || index >= max)
 		std::cout << "Contact not available" << std::endl;
 	else

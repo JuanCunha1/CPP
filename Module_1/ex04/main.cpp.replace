@@ -1,0 +1,40 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+void	replace(::ifstream &file, ::string fileName, ::string toFind, ::string toReplace) {
+	if (toFind.empty())
+		return;
+	::ofstream outfile((fileName + ".replace").c_str());
+	if (!outfile.is_open()) {
+		::cout << "Error creating output file\n";
+		return;
+	}
+	::string line;
+	while (getline(file, line)) {
+		size_t pos = 0;
+		while ((pos = line.find(toFind, pos)) != ::string::npos) {
+			line.erase(pos, toFind.length());
+			line.insert(pos, toReplace);
+			pos += toReplace.length();
+		}
+		outfile << line << ::endl;
+	}
+	outfile.close();
+}
+
+int main(int argc, char **argv) {
+	if (argc != 4) {
+		::cout << "Incorrect input\n./sed_for_loser <filename> <string1> <string2>" << ::endl;
+		return (1);
+	}
+	::string fileLine;
+	::ifstream file(argv[1]);
+	if (!file.is_open()) {
+		::cout << "Error opening file\n";
+		return 1;
+	}
+	replace(file, argv[1], argv[2], argv[3]);
+	file.close();
+	return (0);
+}

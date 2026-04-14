@@ -5,14 +5,14 @@ OBJ_DIR = obj
 OBJ = $(SRCS:%.cpp=$(OBJ_DIR)/%.o)
 DEP = $(OBJ:.o=.d)
 
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I -fsanitize=address -MMD -MP
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I -MMD -MP
 CXX = c++
 RM = rm -rf
 
 all: $(NAME)
 
 $(NAME): $(OBJ) Makefile
-	$(CXX) -g -fsanitize=address $(CXXFLAGS) -o $(NAME) $(OBJ)
+	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJ)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
