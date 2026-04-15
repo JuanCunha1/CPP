@@ -7,6 +7,7 @@ class ClapTrap {
 public:
     // Orthodox Canonical Form
     ClapTrap(std::string name);
+    ClapTrap();
     ClapTrap(const ClapTrap& other);
     ClapTrap& operator=(const ClapTrap& other);
     ~ClapTrap();

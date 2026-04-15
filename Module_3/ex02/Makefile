@@ -6,8 +6,7 @@ RM = rm -rf
 SRC_DIR = src
 
 SRCS =	$(SRC_DIR)/main.cpp \
-		$(SRC_DIR)/ScavTrap.cpp \
-		$(SRC_DIR)/ClapTrap.cpp
+		$(SRC_DIR)/FragTrap.cpp
 
 OBJ_DIR = obj
 OBJ = $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
