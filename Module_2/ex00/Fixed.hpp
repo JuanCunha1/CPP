@@ -10,10 +10,10 @@ private:
 	static const int	_fractionalBits = 8;
 
 public:
-	Fixed();
+	Fixed(void);
 	Fixed(const Fixed& other);
 	Fixed &operator=(const Fixed &other);
-	~Fixed();
+	~Fixed(void);
 	int	getRawBits( void ) const;
 	void setRawBits( int const raw );
 };

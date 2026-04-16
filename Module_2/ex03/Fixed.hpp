@@ -2,6 +2,7 @@
 # define FIXED_HPP
 
 #include <iostream>
+#include <math.h>
 
 class Fixed {
 
@@ -11,11 +12,11 @@ private:
 
 public:
 
-	Fixed();
+	Fixed(void);
 	Fixed(const int value);
 	Fixed(const float value);
 	Fixed(const Fixed& other);
-	~Fixed();
+	~Fixed(void);
 
 	Fixed 			&operator=(const Fixed &other);
 	Fixed			operator+(Fixed const &rhs) const;
@@ -28,9 +29,9 @@ public:
 	bool			operator>=(Fixed const &rhs) const;
 	bool			operator==(Fixed const &rhs) const;
 	bool			operator!=(Fixed const &rhs) const;
-	Fixed&			operator++();
+	Fixed&			operator++(void);
 	Fixed			operator++(int);
-	Fixed&			operator--();
+	Fixed&			operator--(void);
 	Fixed			operator--(int);
 
 	int				getRawBits( void ) const;
