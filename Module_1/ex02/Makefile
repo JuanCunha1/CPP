@@ -15,7 +15,7 @@ $(NAME): $(OBJ) Makefile
 	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJ)
 
 debug:
-	$(CXX) $(CXXFLAGS) -g -fsanitize=address -o $(NAME) $(SRCS)
+	$(CXX) $(CXXFLAGS) -o $(NAME) $(SRCS)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
