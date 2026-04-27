@@ -6,7 +6,7 @@
 class FragTrap : public ClapTrap {
 public:
     // Orthodox Canonical Form
-    FragTrap();
+    explicit FragTrap();
     FragTrap(const FragTrap& other);
     FragTrap& operator=(const FragTrap& other);
     ~FragTrap();
@@ -14,12 +14,11 @@ public:
     int getValue() const;
     void setValue(int value);
     void highFivesGuys(void);
-    //get() const;
-    //void set( );
+
 
 
 private:
-    //int _value;
+
 };
 
 #endif // FRAGTRAP_HPP

@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-class DiamondTrap {
+class DiamondTrap : public ScavTrap, public FragTrap {
 public:
     // Orthodox Canonical Form
     DiamondTrap();
@@ -12,7 +12,7 @@ public:
     ~DiamondTrap();
 
 private:
-    int _value;
+    
 };
 
 #endif // DIAMONDTRAP_HPP

@@ -14,12 +14,11 @@ public:
     int getValue() const;
     void setValue(int value);
     void highFivesGuys(void);
-    //get() const;
-    //void set( );
+   
 
 
 private:
-    //int _value;
+    
 };
 
 #endif // FRAGTRAP_HPP

@@ -14,7 +14,7 @@ protected:
 public:
 	// Orthodox Canonical Form
 	ClapTrap();
-	ClapTrap(std::string name);
+	explicit ClapTrap(std::string name);
 	ClapTrap(const ClapTrap& other);
 	ClapTrap& operator=(const ClapTrap& other);
 	~ClapTrap();
