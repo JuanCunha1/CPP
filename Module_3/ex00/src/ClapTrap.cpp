@@ -17,12 +17,12 @@ ClapTrap::ClapTrap(const ClapTrap& other) {
 // Operador de atribuição
 ClapTrap& ClapTrap::operator=(const ClapTrap& other) {
     std::cout << "ClapTrap assignment operator called" << std::endl;
-    if (this != &other) {
-        this->_name = other._name;
-        this->_hitPoints = other._hitPoints;
-        this->_energyPoints = other._energyPoints;
-        this->_attackDamage = other._attackDamage;
-    }
+    if (this == &other) 
+        return *this;
+    this->_name = other._name;
+    this->_hitPoints = other._hitPoints;
+    this->_energyPoints = other._energyPoints;
+    this->_attackDamage = other._attackDamage;
     return *this;
 }
 
