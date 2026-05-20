@@ -9,7 +9,7 @@ Fixed::Fixed(const int value) {
 	this->rawBits = value << _fractionalBits;
 }
 
-Fixed::Fixed(const float value) : rawBits(value) {
+Fixed::Fixed(const float value) {
 	std::cout << "Float constructor called" << std::endl;
 	this->rawBits = roundf(value * (1 << _fractionalBits));
 }
