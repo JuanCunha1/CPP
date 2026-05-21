@@ -1,7 +1,7 @@
 #include "WrongCat.hpp"
 
 // Construtor padrão
-WrongCat::WrongCat() : WrongAnimal() {
+WrongCat::WrongCat() {
 	this->type = "WrongCat";
 	std::cout << "WrongCat  default constructor called" << std::endl;
 }
@@ -15,7 +15,7 @@ WrongCat::WrongCat(const WrongCat& other) : WrongAnimal(other){
 // Operador de atribuição
 WrongCat& WrongCat::operator=(const WrongCat& other) {
 	std::cout << "WrongCat assignment operator called" << std::endl;
-	if (this == &other) 
+	if (this == &other)
 		return *this;
 	this->type = other.type;
 	return *this;

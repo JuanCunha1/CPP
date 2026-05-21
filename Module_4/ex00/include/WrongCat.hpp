@@ -2,17 +2,16 @@
 #define WRONGCAT_HPP
 
 #include <iostream>
-
-class WrongCat {
+#include "WrongAnimal.hpp"
+class WrongCat : public WrongAnimal{
 public:
     // Orthodox Canonical Form
     WrongCat();
     WrongCat(const WrongCat& other);
     WrongCat& operator=(const WrongCat& other);
     ~WrongCat();
-
+    void makeSound() const;
 private:
-    int _value;
 };
 
 #endif // WRONGCAT_HPP
