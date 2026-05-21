@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Animal.hpp"
+#include "Brain.hpp"
 
 class Cat : public Animal{
 public:
@@ -12,6 +13,8 @@ public:
     Cat& operator=(const Cat& other);
     virtual ~Cat();
     void makeSound() const;
+private:
+    Brain _brain;
 };
 
 #endif // CAT_HPP
