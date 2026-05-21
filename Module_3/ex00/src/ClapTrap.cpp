@@ -1,20 +1,17 @@
 #include "ClapTrap.hpp"
 
-ClapTrap::ClapTrap() {
-    std::cout << "ClapTrap default constructor called" << std::endl;
-}
-// Construtor padrão
+// Constructor
 ClapTrap::ClapTrap(std::string name) : _name(name), _hitPoints(10), _energyPoints(10), _attackDamage(0) {
-    std::cout << "ClapTrap default constructor called" << std::endl;
+    std::cout << "ClapTrap constructor called" << std::endl;
 }
 
-// Construtor de cópia
+// Copy constructor
 ClapTrap::ClapTrap(const ClapTrap& other) {
     std::cout << "ClapTrap copy constructor called" << std::endl;
     *this = other;
 }
 
-// Operador de atribuição
+// Assignment operator
 ClapTrap& ClapTrap::operator=(const ClapTrap& other) {
     std::cout << "ClapTrap assignment operator called" << std::endl;
     if (this != &other) {
@@ -26,13 +23,17 @@ ClapTrap& ClapTrap::operator=(const ClapTrap& other) {
     return *this;
 }
 
-// Destrutor
+// Destructor
 ClapTrap::~ClapTrap() {
     std::cout << "ClapTrap destructor called" << std::endl;
 }
 
 void ClapTrap::attack(const std::string& target) {
-    if (_energyPoints > 0) {
+	if (_hitPoints <= 0)
+    {
+    	std::cout << "ClapTrap " << _name << " is dead" << std::endl;
+    }
+    else if (_energyPoints > 0) {
 		std::cout << "ClapTrap " << _name << " attacks " << target << ", causing " << _attackDamage << " points of damage!" << std::endl;
         _energyPoints --;
 	}
@@ -41,16 +42,29 @@ void ClapTrap::attack(const std::string& target) {
 }
 
 void ClapTrap::takeDamage(unsigned int amount) {
+	if (_hitPoints == 0)
+	{
+		std::cout << "ClapTrap " << _name << " is already dead" << std::endl;
+		return ;
+	}
+	if (_hitPoints <= amount)
+		_hitPoints = 0;
+    else
+    	_hitPoints -= amount;
     _hitPoints -= amount;
     std::cout << "ClapTrap " << _name << " takes " << amount << " points of damage!" << std::endl;
 }
 
 void ClapTrap::beRepaired(unsigned int amount) {
-    
-    if (_energyPoints <= 0) 
+	if (_hitPoints <= 0)
+    {
+    	std::cout << "ClapTrap " << _name << " is dead" << std::endl;
+     	return ;
+    }
+    if (_energyPoints <= 0)
     {
         std::cout << "ClapTrap " << _name << " doesn't have enough energy points !" << std::endl;
-        return;
+        return ;
     }
     _energyPoints--;
     std::cout << "ClapTrap " << _name << " is repaired for " << amount << " hit points!" << std::endl;
