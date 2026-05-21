@@ -4,38 +4,20 @@
 #include <iostream>
 
 class ClapTrap {
-
-protected:
-	std::string _name;
-	int			_hitPoints;
-	int			_energyPoints;
-	int			_attackDamage;
-
 public:
-	// Orthodox Canonical Form
-	ClapTrap();
-	ClapTrap(std::string name);
-	ClapTrap(const ClapTrap& other);
-	ClapTrap& operator=(const ClapTrap& other);
-	~ClapTrap();
+    explicit ClapTrap(std::string name);
+    ClapTrap(const ClapTrap& other);
+    ClapTrap& operator=(const ClapTrap& other);
+    virtual ~ClapTrap(void);
 
-	void		attack(const std::string& target);
-	void		takeDamage(unsigned int amount);
-	void		beRepaired(unsigned int amount);
-
-	std::string	getName() const;
-	void		setName(const std::string& name);
-
-	int			getHitPoints() const;
-	void		setHitPoints(int hitPoints);
-
-	int			getEnergyPoints() const;
-	void		setEnergyPoints(int energyPoints);
-
-	int			getAttackDamage() const;
-	void		setAttackDamage(int attackDamage);
-
-
+    virtual void	attack(const std::string& target);
+    virtual void	takeDamage(unsigned int amount);
+    virtual void	beRepaired(unsigned int amount);
+protected:
+	std::string		_name;
+    unsigned int	_hitPoints;
+    unsigned int	_energyPoints;
+    unsigned int	_attackDamage;
 };
 
 #endif // CLAPTRAP_HPP
