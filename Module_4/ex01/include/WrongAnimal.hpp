@@ -12,7 +12,7 @@ public:
 	virtual ~WrongAnimal();
 	virtual void makeSound() const; // Pure virtual function
 	std::string getType() const;
-private:
+protected:
 	std::string type;
 };
 

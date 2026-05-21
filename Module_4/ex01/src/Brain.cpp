@@ -30,7 +30,7 @@ Brain::~Brain() {
     std::cout << "Brain destructor called" << std::endl;
 }
 
-static void Brain::RandomIdeas() {
+void Brain::RandomIdeas() {
   const std::string random_ideas[] = {
       "Where am I?",
       "Let's play!",

@@ -4,7 +4,6 @@
 #include <iostream>
 #include "Animal.hpp"
 #include "Brain.hpp"
-
 class Cat : public Animal{
 public:
     // Orthodox Canonical Form
@@ -13,8 +12,10 @@ public:
     Cat& operator=(const Cat& other);
     virtual ~Cat();
     void makeSound() const;
+
 private:
-    Brain _brain;
+	Brain *CatBrain;
 };
+
 
 #endif // CAT_HPP
