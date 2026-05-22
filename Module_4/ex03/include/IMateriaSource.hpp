@@ -12,7 +12,6 @@ public:
     ~IMateriaSource();
 
 private:
-    int _value;
 };
 
 #endif // IMATERIASOURCE_HPP

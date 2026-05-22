@@ -12,7 +12,6 @@ public:
     ~Ice();
 
 private:
-    int _value;
 };
 
 #endif // ICE_HPP

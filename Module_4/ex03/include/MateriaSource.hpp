@@ -11,8 +11,6 @@ public:
     MateriaSource& operator=(const MateriaSource& other);
     ~MateriaSource();
 
-private:
-    int _value;
 };
 
 #endif // MATERIASOURCE_HPP

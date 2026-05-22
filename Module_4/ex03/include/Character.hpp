@@ -12,7 +12,6 @@ public:
     ~Character();
 
 private:
-    int _value;
 };
 
 #endif // CHARACTER_HPP

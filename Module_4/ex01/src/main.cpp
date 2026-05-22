@@ -37,15 +37,21 @@ int main() {
 	delete jj;
 	delete ii;
 
-	std::cout << "==== Aniaml Brain's tests ====\n";
+	std::cout << "\n\n============ Aniaml Brain's tests =======\n\n";
 
-	Animal* Animals[50];
+	Animal* Animals[10];
 	for (int i = 0; i < 5; i++)
 		Animals[i] = new Cat();
 	for (int i = 5; i < 10; i++)
 		Animals[i] = new Dog();
 	for (int i = 0; i < 10; i++)
 		delete Animals[i];
+
+	std::cout << "\n\n============ exercises tests =======\n\n";
+	const Animal* j = new Dog();
+	const Animal* i = new Cat();
+	delete j;//should not create a leak
+	delete i;
 
 	return 0;
 }

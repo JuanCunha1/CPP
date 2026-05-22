@@ -12,7 +12,6 @@ public:
     ~Cure();
 
 private:
-    int _value;
 };
 
 #endif // CURE_HPP
