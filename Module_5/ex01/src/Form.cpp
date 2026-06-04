@@ -13,9 +13,9 @@ Form::Form(const std::string &name, int gradeToSign, int gradeToExecute)
 	  _isSigned(false),
 	  _gradeToSign(gradeToSign),
 	  _gradeToExecute(gradeToExecute) {
-	if (gradeToSign < 1 || gradeToExecute < 1)
+	if (gradeToSign <= 1 || gradeToExecute <= 1)
 		throw GradeTooHighException();
-	if (gradeToSign > 150 || gradeToExecute > 150)
+	if (gradeToSign >= 150 || gradeToExecute >= 150)
 		throw GradeTooLowException();
 }
 
@@ -28,7 +28,7 @@ Form::Form(const Form &other)
 
 Form &Form::operator=(const Form &other) {
 	if (this != &other)
-		this->_isSigned = other._isSigned;
+		_isSigned = other._isSigned;
 	return (*this);
 }
 
