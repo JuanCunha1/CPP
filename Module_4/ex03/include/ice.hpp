@@ -1,9 +1,11 @@
 #ifndef ICE_HPP
 #define ICE_HPP
 
-#include <iostream>
+#include "AMateria.hpp"
 
-class Ice {
+class AMateria;
+
+class Ice : public AMateria {
 public:
     // Orthodox Canonical Form
     Ice();
@@ -11,6 +13,8 @@ public:
     Ice& operator=(const Ice& other);
     ~Ice();
 
+    AMateria *clone() const;
+    void use(ICharacter &target);
 private:
 };
 

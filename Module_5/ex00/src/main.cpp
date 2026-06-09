@@ -3,16 +3,26 @@
 int main() {
 	{
 		try {
-	    	Bureaucrat b("Bob", 151);
-
+			Bureaucrat b("Bob", 151);
+			std::cout << b << std::endl;
 		}
 		catch (std::exception& e) {
 			std::cout << e.what() << std::endl;
 		}
+		try
+		{
+			Bureaucrat c("Cal", 0);
+			std::cout << c << std::endl;
+		}
+		catch(const std::exception& e)
+		{
+			std::cout << e.what() << std::endl;
+		}
+		
 	}
 	{
 		try {
-	    	Bureaucrat b("Bob", 15);
+			Bureaucrat b("Bob", 15);
 			Bureaucrat c("Cal", 150);
 			Bureaucrat d("clin", 1);
 			b.incrementGrade();
@@ -31,5 +41,5 @@ int main() {
 			std::cout << e.what() << std::endl;
 		}
 	}
-    return 0;
+	return 0;
 }

@@ -2,7 +2,7 @@
 
 // Construtor padrão
 Cat::Cat() : Animal() {
-	this->type = "Cat";
+	this->_type = "Cat";
 	this->CatBrain = new Brain();
 	std::cout << "Cat default constructor called" << std::endl;
 }
@@ -10,7 +10,7 @@ Cat::Cat() : Animal() {
 // Construtor de cópia
 Cat::Cat(const Cat& other) : Animal(other){
 	std::cout << "Cat copy constructor called" << std::endl;
-	this->type = other.type;
+	this->_type = other._type;
 	delete this->CatBrain;
 	this->CatBrain = new Brain(*other.CatBrain);
 }

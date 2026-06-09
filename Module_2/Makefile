@@ -6,7 +6,7 @@ RM = rm -rf
 SRC_DIR = src
 
 SRCS =	$(SRC_DIR)/main.cpp \
-		$(SRC_DIR)/ScalarConverter.cpp
+		$(SRC_DIR)/test.cpp
 
 OBJ_DIR = obj
 OBJ = $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)

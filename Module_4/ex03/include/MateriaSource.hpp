@@ -1,9 +1,15 @@
 #ifndef MATERIASOURCE_HPP
 #define MATERIASOURCE_HPP
 
-#include <iostream>
+#include "IMateriaSource.hpp"
 
-class MateriaSource {
+#define SLOTS 4
+
+class IMateriaSource;
+
+class MateriaSource : public IMateriaSource {
+private:
+	AMateria *learntMaterias_[SLOTS];
 public:
     // Orthodox Canonical Form
     MateriaSource();
@@ -11,6 +17,8 @@ public:
     MateriaSource& operator=(const MateriaSource& other);
     ~MateriaSource();
 
+    void learnMateria(AMateria *materiaToLearn);
+    AMateria *createMateria(std::string const &type);
 };
 
 #endif // MATERIASOURCE_HPP

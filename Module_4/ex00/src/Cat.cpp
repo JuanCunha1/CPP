@@ -2,22 +2,22 @@
 
 // Construtor padrão
 Cat::Cat() : Animal() {
-	this->type = "Cat";
+	this->_type = "Cat";
 	std::cout << "Cat default constructor called" << std::endl;
 }
 
 // Construtor de cópia
 Cat::Cat(const Cat& other) : Animal(other){
 	std::cout << "Cat copy constructor called" << std::endl;
-	this->type = other.type;
+	this->_type = other._type;
 }
 
 // Operador de atribuição
 Cat& Cat::operator=(const Cat& other) {
 	std::cout << "Cat assignment operator called" << std::endl;
-	if (this == &other) 
+	if (this == &other)
 		return *this;
-	this->type = other.type;
+	this->_type = other._type;
 	return *this;
 }
 

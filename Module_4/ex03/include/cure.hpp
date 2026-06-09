@@ -2,8 +2,10 @@
 #define CURE_HPP
 
 #include <iostream>
+#include "AMateria.hpp"
 
-class Cure {
+class AMateria;
+class Cure : public AMateria {
 public:
     // Orthodox Canonical Form
     Cure();
@@ -11,7 +13,8 @@ public:
     Cure& operator=(const Cure& other);
     ~Cure();
 
-private:
+    AMateria *clone() const;
+    void use(ICharacter &target);
 };
 
 #endif // CURE_HPP

@@ -7,6 +7,7 @@
 
 int main(void)
 {
+	std::srand(std::time(NULL));
 	Intern someRandomIntern;
 	Bureaucrat boss("Boss", 1);
 
@@ -27,7 +28,8 @@ int main(void)
 		if (form)
 		{
 			boss.signForm(*form);
-			boss.executeForm(*form);
+			for (int i = 0; i < 10; i++)
+				boss.executeForm(*form);
 			delete form;
 		}
 

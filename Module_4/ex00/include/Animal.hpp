@@ -13,7 +13,7 @@ public:
 	virtual void makeSound() const; // Pure virtual function
 	std::string getType() const;
 protected:
-	std::string type;
+	std::string _type;
 };
 
 #endif // ANIMAL_HPP

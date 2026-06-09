@@ -35,14 +35,11 @@ cat <<EOF > $HPP_FILE
 
 class $CLASSE {
 public:
-    // Orthodox Canonical Form
-    $CLASSE();
-    $CLASSE(const $CLASSE& other);
-    $CLASSE& operator=(const $CLASSE& other);
-    ~$CLASSE();
-
-private:
-    int _value;
+	// Orthodox Canonical Form
+	$CLASSE(void);
+	$CLASSE(const $CLASSE& other);
+	$CLASSE& operator=(const $CLASSE& other);
+	~$CLASSE();
 };
 
 #endif // $GUARD
@@ -53,28 +50,28 @@ cat <<EOF > $CPP_FILE
 #include "${NOME}.hpp"
 
 // Constructor padrão
-$CLASSE::$CLASSE() : _value(0) {
-    std::cout << "$CLASSE default constructor called" << std::endl;
+$CLASSE::$CLASSE() {
+	//std::cout << "$CLASSE default constructor called" << std::endl;
 }
 
 // Constructor de cópia
 $CLASSE::$CLASSE(const $CLASSE& other) {
-    std::cout << "$CLASSE copy constructor called" << std::endl;
-    *this = other;
+	//std::cout << "$CLASSE copy constructor called" << std::endl;
+	*this = other;
 }
 
 // Operador de atribuição
 $CLASSE& $CLASSE::operator=(const $CLASSE& other) {
-    std::cout << "$CLASSE assignment operator called" << std::endl;
-    if (this != &other) {
-        this->_value = other._value;
-    }
-    return *this;
+	//std::cout << "$CLASSE assignment operator called" << std::endl;
+	if (this != &other) {
+		
+	}
+	return *this;
 }
 
 // Destructor
 $CLASSE::~$CLASSE() {
-    std::cout << "$CLASSE destructor called" << std::endl;
+	//std::cout << "$CLASSE destructor called" << std::endl;
 }
 EOF
 
@@ -84,15 +81,15 @@ cat <<EOF > $MAIN_FILE
 #include "${NOME}.hpp"
 
 int main() {
-    std::cout << "--- Test OCF ---" << std::endl;
+	std::cout << "--- Test OCF ---" << std::endl;
 
-    $CLASSE a;
-    $CLASSE b(a);
-    $CLASSE c;
+	$CLASSE a;
+	$CLASSE b(a);
+	$CLASSE c;
 
-    c = b;
+	c = b;
 
-    return 0;
+	return 0;
 }
 EOF
 fi
@@ -103,7 +100,7 @@ if [ ! -f "$MAKEFILE" ]; then
 cat <<EOF > $MAKEFILE
 NAME = program
 CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include -fsanitize=address -MMD -MP
+CFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include -MMD -MP
 RM = rm -rf
 
 SRC_DIR = src
@@ -144,11 +141,11 @@ run: all clean
 EOF
 
 else
-    # Atualizar SRCS
-    if ! grep -q "${NOME}.cpp" "$MAKEFILE"; then
-        sed -i "/SRCS =/a\\
+	# Atualizar SRCS
+	if ! grep -q "${NOME}.cpp" "$MAKEFILE"; then
+		sed -i "/SRCS =/a\\
 		\$(SRC_DIR)/${NOME}.cpp \\\\" "$MAKEFILE"
-    fi
+	fi
 fi
 
 echo "✔ Classe $CLASSE criada"

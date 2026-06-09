@@ -4,9 +4,10 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
-/*
+
 int main()
 {
+	std::srand(std::time(NULL));
     std::cout << "\n===== Bureaucrat Exceptions =====\n";
     try
     {
@@ -68,7 +69,8 @@ int main()
         RobotomyRequestForm robot("Bender");
 
         boss.signForm(robot);
-        boss.executeForm(robot);
+        for (int i = 0; i < 10; i++)
+            boss.executeForm(robot);
     }
 
     std::cout << "\n===== Successful Presidential Pardon =====\n";
@@ -80,119 +82,4 @@ int main()
     }
 
     return 0;
-}
-*/
-
-int main()
-{
-    Intern intern;
-    Bureaucrat boss("Boss", 1);
-    Bureaucrat worker("Worker", 50);
-    Bureaucrat low("Low", 150);
-
-    AForm *form;
-
-    std::cout << "\n===== Shrubbery Creation =====\n";
-    try
-    {
-        form = intern.makeForm("ShrubberyCreation", "home");
-
-        boss.signForm(*form);
-        boss.executeForm(*form);
-
-        delete form;
-    }
-    catch (std::exception &e)
-    {
-        std::cout << e.what() << std::endl;
-    }
-
-    std::cout << "\n===== Robotomy Request =====\n";
-    try
-    {
-        form = intern.makeForm("RobotomyRequest", "Bender");
-
-        boss.signForm(*form);
-        boss.executeForm(*form);
-
-        delete form;
-    }
-    catch (std::exception &e)
-    {
-        std::cout << e.what() << std::endl;
-    }
-
-    std::cout << "\n===== Presidential Pardon =====\n";
-    try
-    {
-        form = intern.makeForm("PresidentialPardon", "Arthur Dent");
-
-        boss.signForm(*form);
-        boss.executeForm(*form);
-
-        delete form;
-    }
-    catch (std::exception &e)
-    {
-        std::cout << e.what() << std::endl;
-    }
-
-    std::cout << "\n===== Unknown Form =====\n";
-    try
-    {
-        form = intern.makeForm("CoffeeRequest", "student");
-        delete form;
-    }
-    catch (std::exception &e)
-    {
-        std::cout << e.what() << std::endl;
-    }
-
-    std::cout << "\n===== Execute Unsigned Form =====\n";
-    try
-    {
-        form = intern.makeForm("ShrubberyCreation", "garden");
-
-        worker.executeForm(*form);
-
-        delete form;
-    }
-    catch (std::exception &e)
-    {
-        delete form;
-        std::cout << e.what() << std::endl;
-    }
-
-    std::cout << "\n===== Sign Grade Too Low =====\n";
-    try
-    {
-        form = intern.makeForm("PresidentialPardon", "Marvin");
-
-        low.signForm(*form);
-
-        delete form;
-    }
-    catch (std::exception &e)
-    {
-        delete form;
-        std::cout << e.what() << std::endl;
-    }
-
-    std::cout << "\n===== Execute Grade Too Low =====\n";
-    try
-    {
-        form = intern.makeForm("PresidentialPardon", "Ford Prefect");
-
-        boss.signForm(*form);
-        worker.executeForm(*form);
-
-        delete form;
-    }
-    catch (std::exception &e)
-    {
-        delete form;
-        std::cout << e.what() << std::endl;
-    }
-
-    return (0);
 }

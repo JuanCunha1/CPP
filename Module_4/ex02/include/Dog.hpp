@@ -14,7 +14,7 @@ public:
     void makeSound() const;
 
 private:
-	 Brain *DogBrain;
+	Brain *DogBrain;
 };
 
 

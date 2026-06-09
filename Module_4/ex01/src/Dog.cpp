@@ -2,7 +2,7 @@
 
 // Construtor padrão
 Dog::Dog() : Animal() {
-	this->type = "Dog";
+	this->_type = "Dog";
 	this->DogBrain = new Brain();
 	std::cout << "Dog default constructor called" << std::endl;
 }
@@ -10,7 +10,7 @@ Dog::Dog() : Animal() {
 // Construtor de cópia
 Dog::Dog(const Dog& other) : Animal(other) {
 	std::cout << "Dog copy constructor called" << std::endl;
-	this->type = other.type;
+	this->_type = other._type;
 	delete this->DogBrain;
 	this->DogBrain = new Brain(*other.DogBrain);
 }
