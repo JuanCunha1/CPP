@@ -9,6 +9,7 @@
 #include <sstream>
 #include <string>
 #include <iomanip>
+#include <cstdlib>
 
 enum LiteralType
 {

@@ -44,44 +44,30 @@ bool ScalarConverter::isInt(const std::string& str) {
 	return true;
 }
 
-bool ScalarConverter::isFloat(const std::string& str) {
-	size_t i = 0;
-	bool hasDecimalPoint = false;
-	size_t length = str.length();
+bool ScalarConverter::isFloat(const std::string& str)
+{
+    if (str.empty() || str[str.length() - 1] != 'f')
+        return false;
 
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	if (str[length - 1] != 'f')
-    	return (false);
-	for (; i < length - 1; i++) {
-		if (str[i] == '.') {
-			if (hasDecimalPoint)
-				return false;
-			hasDecimalPoint = true;
-		}
-		else if (!std::isdigit(str[i]))
-			return false;
-	}
-	return hasDecimalPoint;
+    std::string tmp = str.substr(0, str.length() - 1);
+	if (tmp.find('.') == std::string::npos)
+		return false;
+
+    char *end;
+    std::strtod(tmp.c_str(), &end);
+
+    return (*end == '\0');
 }
 
-bool ScalarConverter::isDouble(const std::string& str) {
-	size_t i = 0;
-	bool hasDecimalPoint = false;
-	size_t length = str.length();
-
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	for (; i < length; i++) {
-		if (str[i] == '.') {
-			if (hasDecimalPoint)
-				return false;
-			hasDecimalPoint = true;
-		}
-		else if (!std::isdigit(str[i]))
-			return false;
-	}
-	return hasDecimalPoint;
+bool ScalarConverter::isDouble(const std::string& str)
+{
+	if (str == "inf" || str == "inff")
+        return false;
+	if (str.empty())
+		return false;
+	char *end;
+	std::strtod(str.c_str(), &end);
+	return (end != str.c_str() && *end == '\0');
 }
 
 void ScalarConverter::printImpossible() {
@@ -92,11 +78,6 @@ void ScalarConverter::printImpossible() {
 }
 
 void ScalarConverter::printChar(double value) {
-	if (value != static_cast<int>(value))
-	{
-		std::cout << "char: impossible" << std::endl;
-		return;
-	}
 	if (value < 0 || value > 127)
     {
         std::cout << "char: impossible" << std::endl;
@@ -119,23 +100,23 @@ void ScalarConverter::printInt(double value) {
 }
 
 void ScalarConverter::printFloat(double value) {
-	if (value < -FLT_MAX || value > FLT_MAX) {
-		std::cout << "float: impossible" << std::endl;
-		return;
-	}
-	std::cout << "float: " << static_cast<float>(value);
-	if (value == std::floor(value))
+	std::cout << "float: " ;
+	if(isinf(value)) 
+		std::cout << (value > 0 ? "+inf" : "-inf");
+	else
+		std::cout << static_cast<float>(value);
+	if (value == std::floor(value) && !std::isinf(value))
 		std::cout << ".0";
 	std::cout << "f" << std::endl;
 }
 
 void ScalarConverter::printDouble(double value) {
-	if (value < -DBL_MAX || value > DBL_MAX) {
-		std::cout << "double: impossible" << std::endl;
-		return;
-	}
-	std::cout << "double: " << value;
-	if (value == std::floor(value))
+	std::cout << "double: ";
+	if (std::isinf(value))
+		std::cout << (value > 0 ? "+inf" : "-inf");
+	else
+		std::cout << value;
+	if (value == std::floor(value) && !std::isinf(value))
 		std::cout << ".0";
 	std::cout << std::endl;
 }
@@ -200,9 +181,7 @@ void ScalarConverter::convertAndPrint(const std::string& str) {
 		case FLOAT:
 		case DOUBLE:
 		{
-			std::stringstream ss(str);
-			double d;
-			ss >> d;
+			double d = std::strtod(str.c_str(), NULL);
 			printAll(d);
 			break;
 		}
