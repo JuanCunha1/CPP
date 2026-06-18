@@ -26,6 +26,7 @@ class Span {
 		int		shortestSpan() const;
 		int		longestSpan() const;
 		void	addNumber(int number);
+		void	addNumbers(std::vector<int>::iterator begin, std::vector<int>::iterator end);
 
 		class maxCapacityException : public std::exception {
 			const char *what() const throw();

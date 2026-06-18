@@ -69,3 +69,10 @@ const char *Span::maxCapacityException::what() const throw() {
 const char *Span::noSpanFound ::what() const throw() {
 	return "No Span was found.";
 }
+
+void Span::addNumbers(std::vector<int>::iterator begin, std::vector<int>::iterator end) {
+	if(_N -_numbers.size() < static_cast<unsigned int>(std::distance(begin, end))) {
+		throw maxCapacityException();
+	}
+	_numbers.insert(_numbers.end(), begin, end);
+}

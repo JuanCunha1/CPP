@@ -7,8 +7,10 @@
 #include <exception>
 #include <iostream>
 #include <vector>
+#include <list>
+#include <deque>
 
-template <typename T> void easyfind(T container, int toBeFound);
+template <typename T> void easyfind(T& container, int toBeFound);
 
 class ValueNotFound : public std::exception {
 	virtual const char *what() const throw();
