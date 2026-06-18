@@ -6,10 +6,9 @@
 
 template <class T> class Array {
 	private:
-		T *array_;
-		unsigned int size_;
+		T				*_array;
+		unsigned int	_size;
 	public:
-	// Orthodox Canonical Form
 		Array(void);
 		Array(const Array& other);
 		Array& operator=(const Array& other);
@@ -18,7 +17,6 @@ template <class T> class Array {
 		unsigned int size() const;
 		T& operator[](unsigned int i);
 		class OutOfRange : public std::exception {
-			/** @brief Throws an exception indicating that the index is out of range. */
 			const char *what() const throw();
   		};
 };

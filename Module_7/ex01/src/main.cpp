@@ -3,15 +3,6 @@
 #include "iter.hpp"
 #include <string>
 
-void print(const int &value) {
-	std::cout << value << std::endl;
-}
-void print(const std::string &value) {
-	std::cout << value << std::endl;
-}
-void print(const float &value) {
-	std::cout << value << std::endl;
-}
 int main() {
 	{
 		std::cout << "------------------SUBJECT TESTS------------------" << std::endl;
