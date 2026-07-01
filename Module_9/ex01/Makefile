@@ -1,6 +1,6 @@
 NAME = RPN
-CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include -MMD -MP
+CXX = c++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include -MMD -MP
 RM = rm -rf
 
 SRC_DIR = src
@@ -15,14 +15,14 @@ DEP = $(OBJ:.o=.d)
 all: $(NAME)
 
 $(NAME): $(OBJ) Makefile
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 -include $(DEP)
 
