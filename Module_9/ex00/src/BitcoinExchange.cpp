@@ -9,10 +9,17 @@ BitcoinExchange::BitcoinExchange(const BitcoinExchange& other) {
 	(void)other;
 }
 
-BitcoinExchange::BitcoinExchange(const char *file) {
+BitcoinExchange::BitcoinExchange(std::ifstream & file) {
 	//std::cout << "BitcoinExchange file constructor called" << std::endl;
-	std::ifstream data(file);
-	parseInputFile(data);
+	try
+	{
+		parseDatabase();
+		parseInputFile(file);
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << "Error: "<< e.what() << '\n';
+	}
 }
 // Operador de atribuição
 BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other) {
@@ -21,13 +28,39 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other) {
 	return *this;
 }
 
-bool BitcoinExchange::isLeapYear(int year)
+void BitcoinExchange::parseDatabase() {
+	
+	std::ifstream data("data.csv");
+	if (!data.is_open())
+		throw noDatabaseFile();
+	std::string line;
+	while (std::getline(data, line)) {
+		if (line.length() < 14)
+			continue;
+		if (line.find(",") == std::string::npos)
+			continue;
+		std::string datePart = line.substr(0, line.find(","));
+		std::string amountPartStr = line.substr(line.find(",") + 1);
+		if (datePart.empty() || amountPartStr.empty())
+			continue;
+		if(!isValidDate(datePart))
+			continue;
+		char* pEnd;
+		float amount = std::strtof(amountPartStr.c_str(), &pEnd);
+		if (*pEnd != '\0')
+			continue;
+		_list[datePart] = amount;
+	}
+	data.close();
+}
+
+bool BitcoinExchange::isLeapYear(int year) const
 {
 	return ((year % 4 == 0 && year % 100 != 0) ||
 			(year % 400 == 0));
 }
 
-bool BitcoinExchange::isValidDate(const std::string& date)
+bool BitcoinExchange::isValidDate(const std::string& date) const
 {
 	if (date.length() != 10)
 		return false;
@@ -47,48 +80,104 @@ bool BitcoinExchange::isValidDate(const std::string& date)
 		return false;
 	if (day < 1)
 		return false;
-	int daysInMonth[] =
+	switch (month)
 	{
-		31, // Jan
-		28, // Feb
-		31, // Mar
-		30, // Apr
-		31, // May
-		30, // Jun
-		31, // Jul
-		31, // Aug
-		30, // Sep
-		31, // Oct
-		30, // Nov
-		31  // Dec
-	};
-	if (isLeapYear(year))
-		daysInMonth[1] = 29;
-	if (day > daysInMonth[month - 1])
-		return false;
+		case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+			if (day > 31)
+				return false;
+			break;
+		case 4: case 6: case 9: case 11:
+			if (day > 30)
+				return false;
+			break;
+		case 2:
+			if (isLeapYear(year))
+			{
+				if (day > 29)
+					return false;
+			}
+			else
+			{
+				if (day > 28)
+					return false;
+			}
+			break;
+		default:
+			return false;
+	}
+	
 	return true;
 }
 
-int BitcoinExchange::parseInputFile(std::ifstream & file) const {
+float BitcoinExchange::findValue(const std::string& date)
+{
+    if (_list.empty())
+        throw std::runtime_error("database is empty");
+
+    std::map<std::string, float>::iterator it = _list.lower_bound(date);
+
+    if (it != _list.end() && it->first == date)
+        return it->second;
+
+    if (it == _list.begin())
+        throw std::runtime_error("no earlier date available");
+
+    --it;
+    return it->second;
+}
+void BitcoinExchange::parseInputFile(std::ifstream & file) {
 	
 	if (!file.is_open())
-		return 1;
+		throw std::runtime_error("failed to open input file");
 	std::string line;
-	std::getline(file, line);
-	while(std::getline(file, line)) {
-		this->_input[i] = 0;
-		if (this->_checkPositive(line) == false)
-			this->_input[i] = 1;
-		if (this->_checkDate(line) == false && line.length() < 11)
-			this->_input[i] = 2;
-		if (this->_checkTooLarge(line) == false)
-			this->_input[i] = 3;
-		i++;
+	try
+	{
+		if (!std::getline(file, line))
+	    	throw wrongHeader();
+		if (line != "date | value")
+			throw wrongHeader();
 	}
-	file.close();
-	return 0;
+	catch(const std::exception& e)
+	{
+		std::cout << "Error: "<< e.what() << '\n';
+	}
+	while(std::getline(file, line)) {
+		try
+		{
+			float amount = 0;
+			if (line.length() < 14)
+				throw std::runtime_error("bad input => " + line);
+			if (line.find(" | ") == std::string::npos)
+				throw invalidFormat();
+			std::string datePart = line.substr(0, line.find(" | "));
+			std::string amountPartStr = line.substr(line.find(" | ") + 3);
+			if (datePart.empty() || amountPartStr.empty())
+		        throw invalidFormat();
+			if(!isValidDate(datePart))
+				throw invalidDate();
+			if (!amountPartStr.empty()) {
+				char* pEnd;
+				amount = std::strtof(amountPartStr.c_str(), &pEnd);
+				if (*pEnd != '\0')
+					throw invalidAmount();
+				if (amount < 0)
+					throw amountNotPositive();
+				if (amount > 1000)
+					throw amountLimitExceeded();
+			}
+			float value = findValue(datePart);
+			
+			std::cout << datePart << " => " << amountPartStr << " = "
+                << value * amount << std::endl;
+		}
+		catch(const std::exception& e)
+		{
+			std::cout << "Error: "<< e.what() << '\n';
+		}
+	}
 }
 // Destructor
+
 BitcoinExchange::~BitcoinExchange() {
 	//std::cout << "BitcoinExchange destructor called" << std::endl;
 }
@@ -106,17 +195,21 @@ const char *BitcoinExchange::amountNotPositive::what() const throw() {
 }
 
 const char *BitcoinExchange::invalidDate::what() const throw() {
- 	return "Date format is invalid.";
+ 	return "date format is invalid.";
 }
 
 const char *BitcoinExchange::invalidFormat::what() const throw() {
- 	return "Invalid format missing \" | \".";
+	return "invalid format missing \" | \".";
 }
 
 const char *BitcoinExchange::wrongHeader::what() const throw() {
- 	return "Wrong header on the file.";
+	return "wrong header on the file.";
 }
 
 const char *BitcoinExchange::nothingToRead::what() const throw() {
- 	return "Nothing to read on the file.";
+	return "nothing to read on the file.";
+}
+
+const char *BitcoinExchange::invalidAmount::what() const throw() {
+	return "invalid amount format.";
 }

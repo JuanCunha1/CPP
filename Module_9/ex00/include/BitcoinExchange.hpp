@@ -21,25 +21,13 @@ class BitcoinExchange {
 		std::map<std::string, float> _list;
 
 		BitcoinExchange(void);
+		void parseInputFile(std::ifstream & file);
 
-		template <typename T> std::string NumberToString(T Number) {
-			std::ostringstream ss;
-			ss << Number;
-			return ss.str();
-		}
-		int parseInputFile(std::ifstream & file) const;
+		bool isLeapYear(int year) const;
+		bool isValidDate(const std::string& date) const;
 
-		bool isLeapYear(int year);
-		bool isValidDate(const std::string& date);
-
-		int		_getInputSize(std::ifstream & file) const;
-		void	_parseData(std::ifstream & file);
-		void	_parseInput(std::ifstream & file);
-		bool	_checkDate(std::string line);
-		bool	_checkPositive(std::string line);
-		bool	_checkTooLarge(std::string line);
-		void	_output(std::ifstream & file);
-		void	_nearestDate(std::string & key);
+		void	parseDatabase();
+		float	findValue(const std::string &date);
 		
 	public:
 		// Orthodox Canonical Form
@@ -48,9 +36,39 @@ class BitcoinExchange {
 		BitcoinExchange& operator=(const BitcoinExchange& other);
 		~BitcoinExchange();
 
-		explicit BitcoinExchange(const char *file);
+		explicit BitcoinExchange(std::ifstream & file);
 
-		
+		class noDatabaseFile : public std::exception {
+			const char *what() const throw();
+		};
+
+		class amountLimitExceeded : public std::exception {
+			const char *what() const throw();
+		};
+
+		class amountNotPositive : public std::exception {
+			const char *what() const throw();
+		};
+
+		class invalidDate : public std::exception {
+			const char *what() const throw();
+		};
+
+		class invalidFormat : public std::exception {
+			const char *what() const throw();
+		};
+
+		class wrongHeader : public std::exception {
+			const char *what() const throw();
+		};
+
+		class nothingToRead : public std::exception {
+			const char *what() const throw();
+		};
+
+		class invalidAmount : public std::exception {
+			const char *what() const throw();
+		};
 };
 
 #endif // BITCOINEXCHANGE_HPP

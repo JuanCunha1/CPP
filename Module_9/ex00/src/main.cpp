@@ -11,7 +11,7 @@ int main(int argc, char **argv) {
 		return (std::cout << "Couldn't open the file " << argv[1] << std::endl, 0);
 	if (file.peek() == std::ifstream::traits_type::eof())
 		return (std::cout << "No content on the file " << argv[1] << std::endl, 0);
-	BitcoinExchange btc(argv[1]);
+	BitcoinExchange btc(file);
 	file.close();
 	return 0;
 }
