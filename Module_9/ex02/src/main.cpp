@@ -4,15 +4,14 @@ int main(int argc, char *argv[]) {
 
 	if (argc == 1)
 		return (std::cout << "Please provide numbers to be sorted." << std::endl, 1);
-	std::vector<int> list;
-	for (int i = 1; i < argc; i++) {
-		std::string a = argv[i];
-		if (a.find_first_not_of("0123456789") != std::string::npos) {
-			std::cout << "Error: Invalid number provided " << argv[i] << std::endl;
-			return 1;
-		}
+	try
+	{
+		PmergeMe(argc, argv);
 	}
-	PmergeMe(argc, argv);
-
+	catch(const std::exception& e)
+	{
+		std::cerr << "Error: "<< e.what() << '\n';
+		return 1;
+	}
 	return 0;
 }
