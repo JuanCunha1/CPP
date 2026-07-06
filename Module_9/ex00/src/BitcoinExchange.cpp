@@ -4,28 +4,28 @@ BitcoinExchange::BitcoinExchange() {
 	//std::cout << "BitcoinExchange default constructor called" << std::endl;
 }
 
-BitcoinExchange::BitcoinExchange(const BitcoinExchange& other) {
-	//std::cout << "BitcoinExchange copy constructor called" << std::endl;
-	(void)other;
-}
-
 BitcoinExchange::BitcoinExchange(std::ifstream & file) {
 	//std::cout << "BitcoinExchange file constructor called" << std::endl;
-	try
-	{
-		parseDatabase();
-		parseInputFile(file);
-	}
-	catch(const std::exception& e)
-	{
-		std::cerr << "Error: "<< e.what() << '\n';
-	}
+
+	parseDatabase();
+	parseInputFile(file);
 }
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange& other) : _list(other._list) {
+	//std::cout << "BitcoinExchange copy constructor called" << std::endl;
+}
+
 // Operador de atribuição
 BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange& other) {
 	//std::cout << "BitcoinExchange assignment operator called" << std::endl;
-	(void)other;
+	if (this != &other) {
+		_list = other._list;
+	}
 	return *this;
+}
+
+BitcoinExchange::~BitcoinExchange() {
+	//std::cout << "BitcoinExchange destructor called" << std::endl;
 }
 
 void BitcoinExchange::parseDatabase() {
@@ -109,77 +109,85 @@ bool BitcoinExchange::isValidDate(const std::string& date) const
 	return true;
 }
 
-float BitcoinExchange::findValue(const std::string& date)
+float BitcoinExchange::findValue(const std::string& date) const
 {
-    if (_list.empty())
-        throw std::runtime_error("database is empty");
+	if (_list.empty())
+		throw std::runtime_error("database is empty");
 
-    std::map<std::string, float>::iterator it = _list.lower_bound(date);
+	std::map<std::string, float>::const_iterator it = _list.lower_bound(date);
 
-    if (it != _list.end() && it->first == date)
-        return it->second;
+	if (it != _list.end() && it->first == date)
+		return it->second;
 
-    if (it == _list.begin())
-        throw std::runtime_error("no earlier date available");
+	if (it == _list.begin())
+		throw std::runtime_error("no earlier date available");
 
-    --it;
-    return it->second;
+	--it;
+	return it->second;
 }
+
+float BitcoinExchange::parsesAmount(const std::string &amountStr) const {
+	if (amountStr.empty())
+		throw invalidAmount();
+
+	int dotCount = 0;
+	for (std::string::size_type i = 0; i < amountStr.length(); i++) {
+		if (amountStr[i] == '-' && i == 0)
+			continue;
+		if (amountStr[i] == '.') {
+			dotCount++;
+			if (dotCount > 1)
+				throw invalidAmount();
+			continue;
+		}
+		if (!std::isdigit(static_cast<unsigned char>(amountStr[i])))
+			throw invalidAmount();
+	}
+	char* pEnd;
+	double parsedAmount = std::strtod(amountStr.c_str(), &pEnd);
+	if (*pEnd != '\0')
+		throw invalidAmount();
+	if (parsedAmount < 0)
+		throw amountNotPositive();
+	if (parsedAmount > 1000)
+		throw amountLimitExceeded();
+	return static_cast<float>(parsedAmount);
+}
+
 void BitcoinExchange::parseInputFile(std::ifstream & file) {
 	
 	if (!file.is_open())
 		throw std::runtime_error("failed to open input file");
 	std::string line;
-	try
-	{
-		if (!std::getline(file, line))
-	    	throw wrongHeader();
-		if (line != "date | value")
-			throw wrongHeader();
-	}
-	catch(const std::exception& e)
-	{
-		std::cout << "Error: "<< e.what() << '\n';
-	}
+	
+	if (!std::getline(file, line) || line != "date | value")
+		throw wrongHeader();
+
 	while(std::getline(file, line)) {
 		try
 		{
-			float amount = 0;
 			if (line.length() < 14)
 				throw std::runtime_error("bad input => " + line);
-			if (line.find(" | ") == std::string::npos)
+			std::string::size_type delimiter = line.find(" | ");
+			if (delimiter == std::string::npos)
 				throw invalidFormat();
-			std::string datePart = line.substr(0, line.find(" | "));
-			std::string amountPartStr = line.substr(line.find(" | ") + 3);
+			std::string datePart = line.substr(0, delimiter);
+			std::string amountPartStr = line.substr(delimiter + 3);
 			if (datePart.empty() || amountPartStr.empty())
-		        throw invalidFormat();
+				throw invalidFormat();
 			if(!isValidDate(datePart))
 				throw invalidDate();
-			if (!amountPartStr.empty()) {
-				char* pEnd;
-				amount = std::strtof(amountPartStr.c_str(), &pEnd);
-				if (*pEnd != '\0')
-					throw invalidAmount();
-				if (amount < 0)
-					throw amountNotPositive();
-				if (amount > 1000)
-					throw amountLimitExceeded();
-			}
+			float amount = parsesAmount(amountPartStr);
 			float value = findValue(datePart);
 			
 			std::cout << datePart << " => " << amountPartStr << " = "
-                << value * amount << std::endl;
+				<< value * amount << std::endl;
 		}
 		catch(const std::exception& e)
 		{
 			std::cout << "Error: "<< e.what() << '\n';
 		}
 	}
-}
-// Destructor
-
-BitcoinExchange::~BitcoinExchange() {
-	//std::cout << "BitcoinExchange destructor called" << std::endl;
 }
 
 const char *BitcoinExchange::noDatabaseFile::what() const throw() {

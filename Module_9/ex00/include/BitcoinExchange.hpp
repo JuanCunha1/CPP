@@ -27,7 +27,8 @@ class BitcoinExchange {
 		bool isValidDate(const std::string& date) const;
 
 		void	parseDatabase();
-		float	findValue(const std::string &date);
+		float	findValue(const std::string &date) const;
+		float	parsesAmount(const std::string &amountStr) const;
 		
 	public:
 		// Orthodox Canonical Form

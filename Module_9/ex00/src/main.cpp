@@ -8,10 +8,14 @@ int main(int argc, char **argv) {
 	}
 	std::ifstream file(argv[1]);
 	if (!file.is_open())
-		return (std::cout << "Couldn't open the file " << argv[1] << std::endl, 0);
+		return (std::cerr << "Couldn't open the file " << argv[1] << std::endl, 1);
 	if (file.peek() == std::ifstream::traits_type::eof())
-		return (std::cout << "No content on the file " << argv[1] << std::endl, 0);
-	BitcoinExchange btc(file);
+		return (std::cerr << "No content on the file " << argv[1] << std::endl, 1);
+	try {
+		BitcoinExchange btc(file);
+	} catch (const std::exception& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+	}
 	file.close();
 	return 0;
 }
