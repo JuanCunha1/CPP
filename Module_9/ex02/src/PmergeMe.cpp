@@ -221,15 +221,16 @@ void PmergeMe::insertPending(
 	std::vector<int>& mainChain,
 	const std::vector<Pair>& pairs)
 {
+	size_t pairsSize = pairs.size();
 	std::vector<size_t> insertionOrder =
-		generateJacobsthalOrder(pairs.size());
+		generateJacobsthalOrder(pairsSize);
 
 	size_t size = insertionOrder.size();
 	for (size_t i = 0; i < size; ++i)
 	{
 		size_t pairIndex = insertionOrder[i];
 
-		if (pairIndex >= pairs.size())
+		if (pairIndex >= pairsSize)
 			continue;
 
 		int pendingValue = pairs[pairIndex].small;
@@ -255,10 +256,11 @@ void PmergeMe::insertPending(
 
 void PmergeMe::fordJohnson(std::vector<int>& data)
 {
-	if (data.size() <= 1)
+	size_t size = data.size();
+	if (size <= 1)
 		return;
 
-	bool hasStraggler = (data.size() % 2 != 0);
+	bool hasStraggler = (size % 2 != 0);
 	int straggler = hasStraggler ? data.back() : 0;
 
 	std::vector<Pair> pairs = generatePairs(data);
@@ -395,15 +397,17 @@ void PmergeMe::insertPending(
 	std::deque<int>& mainChain,
 	const std::deque<Pair>& pairs)
 {
+	size_t pairsSize = pairs.size();
 	std::deque<size_t> insertionOrder =
-		generateDequeJacobsthalOrder(pairs.size());
+		generateDequeJacobsthalOrder(pairsSize);
 
 	size_t size = insertionOrder.size();
+	
 	for (size_t i = 0; i < size; ++i)
 	{
 		size_t pairIndex = insertionOrder[i];
 
-		if (pairIndex >= pairs.size())
+		if (pairIndex >= pairsSize)
 			continue;
 
 		int pendingValue = pairs[pairIndex].small;
@@ -429,10 +433,11 @@ void PmergeMe::insertPending(
 
 void PmergeMe::fordJohnson(std::deque<int>& data)
 {
-	if (data.size() <= 1)
+	size_t size = data.size();
+	if (size <= 1)
 		return;
 
-	bool hasStraggler = (data.size() % 2 != 0);
+	bool hasStraggler = (size % 2 != 0);
 	int straggler = hasStraggler ? data.back() : 0;
 
 	std::deque<Pair> pairs = generatePairs(data);
