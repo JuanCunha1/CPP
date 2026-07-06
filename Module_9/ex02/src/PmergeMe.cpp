@@ -117,7 +117,6 @@ void PmergeMe::print() {
 		<< std::endl;
 }
 
-
 std::vector<size_t> PmergeMe::generateJacobsthalOrder(size_t size)
 {
 	std::vector<size_t> order;
@@ -146,7 +145,8 @@ std::vector<int> PmergeMe::extractLargeElements(const std::vector<Pair>& pairs)
 {
 	std::vector<int> largeElements;
 
-	for (size_t i = 0; i < pairs.size(); ++i)
+	size_t size = pairs.size();
+	for (size_t i = 0; i < size; ++i)
 		largeElements.push_back(pairs[i].large);
 
 	return largeElements;
@@ -157,7 +157,8 @@ PmergeMe::generatePairs(const std::vector<int>& data)
 {
 	std::vector<Pair> pairs;
 
-	for (size_t i = 0; i + 1 < data.size(); i += 2)
+	size_t size = data.size();
+	for (size_t i = 0; i + 1 < size; i += 2)
 	{
 		Pair pair;
 
@@ -182,9 +183,12 @@ std::vector<PmergeMe::Pair> PmergeMe::reorderPairs(std::vector<Pair>& pairs, con
 {
 	std::vector<Pair> orderedPairs;
 
-	for (size_t i = 0; i < largeElements.size(); ++i)
+	size_t	elementSize = largeElements.size();
+	size_t	pairsSize = pairs.size();
+
+	for (size_t i = 0; i < elementSize; ++i)
 	{
-		for (size_t j = 0; j < pairs.size(); ++j)
+		for (size_t j = 0; j < pairsSize; ++j)
 		{
 			if (pairs[j].large == largeElements[i])
 			{
@@ -206,11 +210,13 @@ std::vector<int> PmergeMe::buildMainChain(const std::vector<Pair>& orderedPairs)
 
 	mainChain.push_back(orderedPairs[0].small);
 
-	for (size_t i = 0; i < orderedPairs.size(); ++i)
+	size_t size = orderedPairs.size();
+	for (size_t i = 0; i < size; ++i)
 		mainChain.push_back(orderedPairs[i].large);
 
 	return mainChain;
 }
+
 void PmergeMe::insertPending(
 	std::vector<int>& mainChain,
 	const std::vector<Pair>& pairs)
@@ -218,7 +224,8 @@ void PmergeMe::insertPending(
 	std::vector<size_t> insertionOrder =
 		generateJacobsthalOrder(pairs.size());
 
-	for (size_t i = 0; i < insertionOrder.size(); ++i)
+	size_t size = insertionOrder.size();
+	for (size_t i = 0; i < size; ++i)
 	{
 		size_t pairIndex = insertionOrder[i];
 
@@ -313,7 +320,8 @@ std::deque<int> PmergeMe::extractLargeElements(const std::deque<Pair>& pairs)
 {
 	std::deque<int> largeElements;
 
-	for (size_t i = 0; i < pairs.size(); ++i)
+	size_t size = pairs.size();
+	for (size_t i = 0; i < size; ++i)
 		largeElements.push_back(pairs[i].large);
 
 	return largeElements;
@@ -324,7 +332,8 @@ PmergeMe::generatePairs(const std::deque<int>& data)
 {
 	std::deque<Pair> pairs;
 
-	for (size_t i = 0; i + 1 < data.size(); i += 2)
+	size_t size = data.size();
+	for (size_t i = 0; i + 1 < size; i += 2)
 	{
 		Pair pair;
 
@@ -349,9 +358,12 @@ std::deque<PmergeMe::Pair> PmergeMe::reorderPairs(std::deque<Pair>& pairs, const
 {
 	std::deque<Pair> orderedPairs;
 
-	for (size_t i = 0; i < largeElements.size(); ++i)
+	size_t	elementSize = largeElements.size();
+	size_t	pairsSize = pairs.size();
+
+	for (size_t i = 0; i < elementSize; ++i)
 	{
-		for (size_t j = 0; j < pairs.size(); ++j)
+		for (size_t j = 0; j < pairsSize; ++j)
 		{
 			if (pairs[j].large == largeElements[i])
 			{
@@ -373,7 +385,8 @@ std::deque<int> PmergeMe::buildMainChain(const std::deque<Pair>& orderedPairs)
 
 	mainChain.push_back(orderedPairs[0].small);
 
-	for (size_t i = 0; i < orderedPairs.size(); ++i)
+	size_t size = orderedPairs.size();
+	for (size_t i = 0; i < size; ++i)
 		mainChain.push_back(orderedPairs[i].large);
 
 	return mainChain;
@@ -385,7 +398,8 @@ void PmergeMe::insertPending(
 	std::deque<size_t> insertionOrder =
 		generateDequeJacobsthalOrder(pairs.size());
 
-	for (size_t i = 0; i < insertionOrder.size(); ++i)
+	size_t size = insertionOrder.size();
+	for (size_t i = 0; i < size; ++i)
 	{
 		size_t pairIndex = insertionOrder[i];
 
